@@ -21,6 +21,7 @@ const teacherSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
   }
 );
 export const teacherModel = mongoose.model("teacher", teacherSchema);

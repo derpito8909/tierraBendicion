@@ -49,6 +49,7 @@ const memberSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
   }
 );
 export const memberModel = mongoose.model("member", memberSchema);
