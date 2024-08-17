@@ -51,7 +51,7 @@ app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec, { explorer: true 
 app.use(errorHandler);
 
 //ejecucion de servidor
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.log(`El puerto se esta escuchando en http://localhost:${port}`);
 });
