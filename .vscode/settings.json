@@ -1,0 +1,5 @@
+{
+  "appService.zipIgnorePattern": ["node_modules{,/**}", ".vscode{,/**}"],
+  "appService.defaultWebAppToDeploy": "/subscriptions/97cebda4-252c-4aba-bdc2-3d37bb409fd0/resourceGroups/TierraBendicionAppGroup/providers/Microsoft.Web/sites/TierraBendicion",
+  "appService.deploySubpath": "."
+}
