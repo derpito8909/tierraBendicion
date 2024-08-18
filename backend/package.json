@@ -5,7 +5,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node app.js",
+    "start": "node src/app.js",
     "dev": "nodemon src/app.js"
   },
   "keywords": [
@@ -16,6 +16,9 @@
     "tierra",
     "bendicion"
   ],
+    "engines": {
+    "node": "20.10.0"
+  },
   "author": "David Esteban Rodriguez Pineda",
   "license": "ISC",
   "dependencies": {
