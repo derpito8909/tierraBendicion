@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+/* importaciones */
+@import url("https://fonts.cdnfonts.com/css/poppins");
+
+/* variables */
+:root {
+  /* Fuentes */
+  --textContent: "Poppins", sans-serif;
+  --colorFondo: #9cbd93;
+  --colorEnfasis1: #0d4a23;
+}
+/* condiciones generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: var(--colorFondo);
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+}
