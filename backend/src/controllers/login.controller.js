@@ -62,9 +62,9 @@ const loginService = async (req, res, next) => {
     const token = await generateToken(payload);
 
     return res.status(200).json({
-      estado: "200",
-      mensaje: "Inicio de sesión exitoso",
-      tokenGenerado: token,
+      status: "200",
+      message: userFound.fullname,
+      token: token,
     });
   } catch (error) {
     next(new InternalServerError(`Hubo un error al intentar iniciar sesión: ${error.message || error}`));
