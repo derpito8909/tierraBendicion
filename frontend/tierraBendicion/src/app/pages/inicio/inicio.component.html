@@ -1,82 +1,69 @@
-<header class="bg-dark py-5">
-  <div class="container px-5">
-    <div class="row gx-5 align-items-center justify-content-center">
-      <div class="col-lg-8 col-xl-7 col-xxl-6">
-        <div class="my-5 text-center text-xl-start">
-          <h1 class="display-5 fw-bolder text-white mb-2">
-            Tierra de bendicion
-          </h1>
-          <p class="lead fw-normal text-white-50 mb-4">
-            Quickly design and customize responsive mobile-first sites with
-            Bootstrap, the world’s most popular front-end open source toolkit!
-          </p>
-          <div
-            class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start"
-          >
-            <a class="btn btn-primary btn-lg px-4 me-sm-3" routerLink="/ingreso"
-              >Inicio Sesión</a
+<section class="vh-100" style="background-color: #9cbd93">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-10">
+        <div class="card" style="border-radius: 1rem">
+          <div class="row g-0">
+            <div
+              class="col-md-6 col-lg-5 d-none d-md-block"
+              style="margin: 100px auto"
             >
-            <a class="btn btn-outline-light btn-lg px-4" routerLink="/registro"
-              >Registro</a
-            >
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center">
-        <img
-          class="img-fluid rounded-3 my-5"
-          src="logo.png"
-          alt="tierrabendicion"
-        />
-      </div>
-    </div>
-  </div>
-</header>
-<section class="container px-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-8 col-xxl-6">
-      <div class="text-center my-5">
-        <h1 class="fw-bolder mb-3">
-          Our mission is to make building websites easier for everyone.
-        </h1>
-        <p class="lead fw-normal text-muted mb-4">
-          Start Bootstrap was built on the idea that quality, functional website
-          templates and themes should be available to everyone. Use our open
-          source, free products, or support us by purchasing one of our premium
-          products or services.
-        </p>
-        <a class="btn btn-primary btn-lg" routerLink="/conocenos">conocenos</a>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="py-5" id="features">
-  <div class="container px-5 my-5">
-    <div class="row gx-5">
-      <div class="col-lg-4 mb-5 mb-lg-0">
-        <h2 class="fw-bolder mb-0">Proximas actividades</h2>
-      </div>
-      <div class="col-lg-8">
-        <div class="row gx-5 row-cols-1 row-cols-md-2">
-          <div class="col mb-5 h-100">
-            <img
-              src="anuncio1.png"
-              alt="anuncio1"
-              width="150px"
-              height="150px"
-            />
-          </div>
-          <div class="col mb-5 h-100">
-            <img
-              src="anuncio2.png"
-              alt="anuncio2"
-              width="150px"
-              height="150px"
-            />
+              <img
+                src="logo.png"
+                alt="logo tierra bendicion"
+                class="img-fluid"
+                style="border-radius: 1rem 0 0 1rem"
+              />
+            </div>
+            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+              <div class="card-body p-4 p-lg-5 text-black">
+                <form>
+                  <h2 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px">
+                    Ingresa a tu cuenta
+                  </h2>
+
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="email"
+                      id="form2Example17"
+                      class="form-control form-control-lg"
+                    />
+                    <label class="form-label" for="form2Example17"
+                      >Correo Electronico</label
+                    >
+                  </div>
+
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="password"
+                      id="form2Example27"
+                      class="form-control form-control-lg"
+                    />
+                    <label class="form-label" for="form2Example27"
+                      >Contraseña</label
+                    >
+                  </div>
+
+                  <div class="pt-1 mb-4">
+                    <button
+                      data-mdb-button-init
+                      data-mdb-ripple-init
+                      class="btn login-button btn-lg btn-block"
+                      type="button"
+                    >
+                      Inicio Sesión
+                    </button>
+                  </div>
+
+                  <a class="small text-muted" href="#!"
+                    >¿Olvidaste la contraseña?</a
+                  >
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-<app-pie-pagina></app-pie-pagina>
