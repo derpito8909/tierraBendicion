@@ -17,31 +17,72 @@
             </div>
             <div class="col-md-6 col-lg-7 d-flex align-items-center">
               <div class="card-body p-4 p-lg-5 text-black">
-                <form>
+                <form [formGroup]="credentialForm" (ngSubmit)="onLogin()">
                   <h2 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px">
                     Ingresa a tu cuenta
                   </h2>
-
+                  <!-- Campo de correo electronico -->
                   <div data-mdb-input-init class="form-outline mb-4">
                     <input
                       type="email"
-                      id="form2Example17"
+                      name="email"
+                      formControlName="email"
                       class="form-control form-control-lg"
+                      [class.is-invalid]="
+                        credentialForm.get('email')?.invalid &&
+                        credentialForm.get('email')?.touched
+                      "
                     />
-                    <label class="form-label" for="form2Example17"
-                      >Correo Electronico</label
+                    <label class="form-label">Correo Electronico</label>
+                    <!-- Mensajes de Error -->
+                    <div
+                      *ngIf="
+                        credentialForm.get('email')?.invalid &&
+                        credentialForm.get('email')?.touched
+                      "
+                      class="invalid-feedback"
                     >
+                      <div
+                        *ngIf="credentialForm.get('email')?.errors?.['required']"
+                      >
+                        El correo electrónico es obligatorio.
+                      </div>
+                      <div
+                        *ngIf="credentialForm.get('email')?.errors?.['email']"
+                      >
+                        Digite un correo electrónico válido.
+                      </div>
+                    </div>
                   </div>
-
+                  <!-- Campo de Contraseña -->
                   <div data-mdb-input-init class="form-outline mb-4">
                     <input
                       type="password"
-                      id="form2Example27"
+                      name="password"
+                      formControlName="password"
                       class="form-control form-control-lg"
+                      [class.is-invalid]="
+                        credentialForm.get('password')?.invalid &&
+                        credentialForm.get('password')?.touched
+                      "
                     />
                     <label class="form-label" for="form2Example27"
                       >Contraseña</label
                     >
+                    <!-- Mensajes de Error -->
+                    <div
+                      *ngIf="
+                        credentialForm.get('password')?.invalid &&
+                        credentialForm.get('password')?.touched
+                      "
+                      class="invalid-feedback"
+                    >
+                      <div
+                        *ngIf="credentialForm.get('password')?.errors?.['required']"
+                      >
+                        La contraseña es obligatoria.
+                      </div>
+                    </div>
                   </div>
 
                   <div class="pt-1 mb-4">
@@ -49,10 +90,19 @@
                       data-mdb-button-init
                       data-mdb-ripple-init
                       class="btn login-button btn-lg btn-block"
-                      type="button"
+                      type="submit"
+                      [disabled]="!credentialForm.valid"
                     >
                       Inicio Sesión
                     </button>
+                  </div>
+
+                  <div
+                    *ngIf="errorMessage"
+                    class="alert alert-danger"
+                    role="alert"
+                  >
+                    {{ errorMessage }}
                   </div>
 
                   <a class="small text-muted" href="#!"
