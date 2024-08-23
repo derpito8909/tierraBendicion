@@ -11,7 +11,7 @@ export class CustomError extends Error {
 
 export class ValidationError extends CustomError {
   constructor(message) {
-    super(message, 400);
+    super(message, 403);
   }
 }
 

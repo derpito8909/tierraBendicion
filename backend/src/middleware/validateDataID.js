@@ -11,6 +11,7 @@
 
 import { validationResult, param } from "express-validator";
 import mongoose from "mongoose";
+import { ValidationError } from "../lib/customErrors.js";
 
 /** Configuración personalizada de `validationResult` para simplificar los mensajes de error. */
 const myValidationResult = validationResult.withDefaults({
@@ -44,10 +45,7 @@ export const validateObjectId = [
   (req, res, next) => {
     const errors = myValidationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        errors: errors.array(),
-      });
+      return next(new ValidationError(errors.array()));
     }
     next();
   },
