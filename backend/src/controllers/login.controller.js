@@ -63,7 +63,8 @@ const loginService = async (req, res, next) => {
 
     return res.status(200).json({
       status: "200",
-      message: userFound.fullname,
+      nameUser: userFound.fullname,
+      rolUser: userFound.category,
       token: token,
     });
   } catch (error) {
