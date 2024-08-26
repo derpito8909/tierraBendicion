@@ -1,32 +1,50 @@
-<nav class="navbar bg-body-tertiary fixed-top">
-  <div class="container-fluid">
+<nav class="navbar color-nav fixed-top mi-nav">
+  <div class="container-fluid justify-content-between mx-3">
     <a class="navbar-brand" href="#"
-      ><img
-        src="logo.png"
-        alt="Logo"
-        width="150"
-        height="80"
-        class="d-inline-block align-text-top"
+      ><img src="Justlogo.png" alt="Logo" width="130" height="70"
     /></a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasNavbar"
-      aria-controls="offcanvasNavbar"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="d-flex gap-2 justify-content-center align-items-center">
+      <div
+        class="d-md-flex gap-2 justify-content-center align-items-center d-none"
+      >
+        <i class="bi bi-person-circle fs-2"></i>
+        <div class="d-flex flex-column lh-sm">
+          <span class="nav-link">{{ getNameUser() }}</span>
+          <span class="nav-link">{{ getRolUser() }}</span>
+        </div>
+      </div>
+      <div>
+        <button
+          class="btn color-boton efecto-hover px-4 mx-5 d-none d-md-block"
+          (click)="closeSession()"
+          role="button"
+        >
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+      </div>
+      <div>
+        <button
+          class="navbar-toggler efecto-hover"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNavbar"
+          aria-controls="offcanvasNavbar"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+
     <div
-      class="offcanvas offcanvas-start"
+      class="offcanvas offcanvas-start color-nav"
       tabindex="-1"
       id="offcanvasNavbar"
       aria-labelledby="offcanvasNavbarLabel"
     >
       <div class="offcanvas-header">
         <img
-          src="logo.png"
+          src="Justlogo.png"
           alt="tierrabendicion"
           width="150"
           height="80"
@@ -34,31 +52,59 @@
         />
         <button
           type="button"
-          class="btn-close"
+          class="btn-close efecto-hover me-2"
           data-bs-dismiss="offcanvas"
           aria-label="Close"
         ></button>
       </div>
       <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink="/inicio"
+        <div class="d-flex gap-2 d-md-none mx-3">
+          <i class="bi bi-person-circle fs-2"></i>
+          <div class="d-flex flex-column lh-sm">
+            <span class="nav-link">{{ getNameUser() }}</span>
+            <span class="nav-link">{{ getRolUser() }}</span>
+          </div>
+        </div>
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 p-3">
+          <li class="nav-item ps-2 efecto-hover">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              routerLink="/principal"
               >Inicio</a
             >
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/personasNuevas">Personas Nuevas</a>
+          <li class="nav-item ps-2 efecto-hover">
+            <a class="nav-link" routerLink="/miembros">Miembros</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item ps-2 efecto-hover">
             <a class="nav-link" routerLink="/actividadesEspeciales"
               >Actividades Especiales</a
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item ps-2 efecto-hover">
             <a class="nav-link" routerLink="/educacionCristiana"
               >Educacion Cristiana</a
             >
           </li>
+          <li
+            class="nav-item efecto-hover"
+            [ngStyle]="{ display: accessUserAdmin() ? 'block' : 'none' }"
+          >
+            <a
+              class="nav-link bg-danger text-light rounded ps-2"
+              routerLink="/administracionUsuarios"
+              >Administración Usuarios</a
+            >
+          </li>
+
+          <button
+            class="btn color-boton efecto-hover my-3"
+            (click)="closeSession()"
+            role="button"
+          >
+            Cerrar Sesión
+          </button>
         </ul>
       </div>
     </div>

@@ -1,1 +1,51 @@
-<p>personas-nuevas works!</p>
+<app-navegacion></app-navegacion>
+<section
+  class="personas-nuevas d-flex flex-column align-items-center align-lg-content-center gap-4 gap-lg-5"
+>
+  <nav aria-label="breadcrumb" class="w-100 container-breadcrumb">
+    <ol class="breadcrumb mx-3 my-3 my-md-5">
+      <li class="breadcrumb-item"><a routerLink="/principal">Inicio</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Miembros</li>
+    </ol>
+  </nav>
+  <div
+    class="d-flex flex-md-row flex-column justify-content-center align-items-center gap-3 gap-md-5 mt-md-4 p-md-4 p-3"
+  >
+    <article class="align-content-center text-center text-md-start">
+      <h2>Miembros</h2>
+      <p class="text-start lh-base fs-6">
+        En esta sección puedes gestionar a los miembros que tienen Tierra
+        Bendición.<br />
+        Selecciona el botón de Registrar nuevo miembro para registrar sus datos
+        personales.<br />
+        Selecciona el botón Ver miembros, para ver el listado de todos los
+        miembros activos en Tierra de Bendición.
+      </p>
+    </article>
+    <div
+      class="d-flex flex-column justify-content-center align-items-center align-items-md-start gap-3 gap-md-4"
+    >
+      <button
+        class="btn color-boton efecto-hover w-100 w-md-auto"
+        role="button"
+      >
+        Registrar nuevo miembro
+      </button>
+      <button
+        class="btn color-boton efecto-hover w-100 w-md-auto"
+        role="button"
+      >
+        Ver miembros
+      </button>
+      <button
+        [ngStyle]="{
+          display: accessUserAdmin() ? 'block' : 'none'
+        }"
+        class="btn btn-danger efecto-hover w-100 w-md-auto"
+        role="button"
+      >
+        Miembros ausentes
+      </button>
+    </div>
+  </div>
+</section>

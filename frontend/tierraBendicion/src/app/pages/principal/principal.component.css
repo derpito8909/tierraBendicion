@@ -1,0 +1,36 @@
+.home {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--colorFondo2);
+}
+
+.icon-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.icon-link > .bi {
+  margin-top: 0.125rem;
+  margin-left: 0.125rem;
+  transition: transform 0.25s ease-in-out;
+  fill: currentColor;
+}
+
+.icon-link:hover > .bi {
+  transform: translate(0.25rem);
+}
+
+.card-img-top {
+  height: auto;
+  max-height: 10rem;
+  object-fit: cover;
+}
+
+.categorias .card {
+  height: 100%;
+}
+
+.categorias .card-body {
+  display: flex;
+  flex-direction: column;
+}

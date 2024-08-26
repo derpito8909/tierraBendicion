@@ -1,12 +1,14 @@
 /* importaciones */
-@import url("https://fonts.cdnfonts.com/css/poppins");
+@import url("https://fonts.cdnfonts.com/css/roboto");
 
 /* variables */
 :root {
   /* Fuentes */
-  --textContent: "Poppins", sans-serif;
+  --textContent: "Roboto Medium", sans-serif;
   --colorFondo: #9cbd93;
+  --colorFondo2: #eceeef;
   --colorEnfasis1: #0d4a23;
+  --colorEnfasis2: #4b3d3a;
 }
 /* condiciones generales */
 * {
@@ -19,4 +21,46 @@ body {
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
+  font-family: var(--textContent);
+}
+/* efecto general para los botones */
+.efecto-hover {
+  transition: background-color 0.25s ease;
+}
+.efecto-hover:hover {
+  background-color: var(--colorFondo);
+  border: 1px solid var(--colorEnfasis1);
+  border-radius: 4px;
+}
+
+.efecto-hover:active,
+.mi-lista:focus {
+  outline: none;
+}
+
+.color-boton {
+  background-color: var(--colorEnfasis1);
+  color: azure;
+}
+
+/* estilo para el menu de navegacion alternativa  */
+
+.container-breadcrumb {
+  margin-top: 100px;
+}
+
+.breadcrumb-item > a {
+  color: black;
+}
+
+@media (min-width: 1024px) {
+  .container-breadcrumb {
+    margin-top: 200px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-breadcrumb {
+    margin-top: 100px;
+  }
 }
