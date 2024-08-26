@@ -35,8 +35,8 @@ export const createPayload = (user) => {
     name: user.nombreCompleto,
   };
 
-  if (user.__t === "activityLeader" || user.isLeader) {
-    payload.isLeader = true;
+  if (user.category === "lider") {
+    payload.isAdmin = true;
   }
 
   if (user.category === "pastor") {
