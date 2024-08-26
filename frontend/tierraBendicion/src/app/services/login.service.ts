@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { Credentials } from '../interfaces/credentials';
 import { LoginResponse } from '../interfaces/login-response';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
@@ -14,7 +13,6 @@ export class LoginService {
   private apiUrl = 'https://tierrabendicion.azurewebsites.net/login';
   private httpClient = inject(HttpClient);
   private router = inject(Router);
-  private toastrService = inject(ToastrService);
 
   login(credentials: Credentials): Observable<LoginResponse> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -45,17 +43,38 @@ export class LoginService {
   }
 
   // Verifica si el usuario ha iniciado sesión
-  isLogged(): boolean {
+  isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  redirectToLogin(): void {
+    this.router.navigate(['/inicio']);
   }
 
   setToken(token: string): void {
     localStorage.setItem('authToken', token);
   }
 
+  setNameUser(name: string): void {
+    localStorage.setItem('nameUser', name);
+  }
+
+  getNameUser(): string {
+    return localStorage.getItem('nameUser') ?? '';
+  }
+
+  setRolUser(rol: string): void {
+    localStorage.setItem('rolUser', rol);
+  }
+
+  getRolUser(): string {
+    return localStorage.getItem('rolUser') ?? '';
+  }
+
   logout(): void {
-    this.toastrService.info('Cierre de sesión, hasta la próxima');
     localStorage.removeItem('authToken');
+    localStorage.removeItem('nameUser');
+    localStorage.removeItem('rolUser');
     this.router.navigate(['/inicio']);
   }
 }

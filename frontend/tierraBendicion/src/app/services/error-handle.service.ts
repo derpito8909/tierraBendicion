@@ -2,7 +2,6 @@ import { Injectable, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
 import { LoginService } from './login.service';
 
 @Injectable({
@@ -11,7 +10,6 @@ import { LoginService } from './login.service';
 export class ErrorHandlerService {
   private router = inject(Router);
   private navegation = inject(ActivatedRoute);
-  toastrService = inject(ToastrService);
   private loginService = inject(LoginService);
 
   handleHttpError(error: HttpErrorResponse): Observable<never> {
@@ -29,7 +27,6 @@ export class ErrorHandlerService {
         case 401:
         case 403:
           errorMessage = `${error.error.message}`;
-          this.toastrService.error(error.error.message);
           this.loginService.logout();
           break;
         case 400:
@@ -39,7 +36,7 @@ export class ErrorHandlerService {
           errorMessage = `${error.error.message}`;
           break;
         case 500:
-          this.toastrService.error(error.error.message);
+          errorMessage = `${error.error.message}`;
           break;
         default:
           errorMessage = 'Ocurrió un error inesperado. Inténtalo más tarde.';

@@ -17,8 +17,18 @@
             </div>
             <div class="col-md-6 col-lg-7 d-flex align-items-center">
               <div class="card-body p-4 p-lg-5 text-black">
+                <div class="d-lg-none d-md-block">
+                  <img
+                    src="logo.png"
+                    class="card-img-top"
+                    alt="educacion cristiana"
+                  />
+                </div>
                 <form [formGroup]="credentialForm" (ngSubmit)="onLogin()">
-                  <h2 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px">
+                  <h2
+                    class="fw-normal mb-3 pb-3 text-center"
+                    style="letter-spacing: 1px"
+                  >
                     Ingresa a tu cuenta
                   </h2>
                   <!-- Campo de correo electronico -->
@@ -89,11 +99,11 @@
                     <button
                       data-mdb-button-init
                       data-mdb-ripple-init
-                      class="btn login-button btn-lg btn-block"
+                      class="btn color-boton efecto-hover w-100"
                       type="submit"
-                      [disabled]="!credentialForm.valid"
                     >
                       Inicio Sesión
+                      <app-progreso-espera></app-progreso-espera>
                     </button>
                   </div>
 

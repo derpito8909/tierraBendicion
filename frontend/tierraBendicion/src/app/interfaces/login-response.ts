@@ -1,5 +1,6 @@
 export interface LoginResponse {
   status: string;
-  message: string;
+  nameUser: string;
+  rolUser: string;
   token: string;
 }

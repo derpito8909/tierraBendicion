@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -8,16 +8,23 @@ import {
 } from '@angular/forms';
 import { Credentials } from '../../interfaces/credentials';
 import { LoginService } from '../../services/login.service';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ProgresoEsperaComponent } from '../../components/progreso-espera/progreso-espera.component';
+import { LoginResponse } from '../../interfaces/login-response';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, ProgresoEsperaComponent],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css',
 })
-export class InicioComponent {
+export class InicioComponent implements OnInit, OnDestroy {
   private loginService = inject(LoginService);
+  private router = inject(Router);
+  private loginSubscription: Subscription | null = null;
+  errorMessage: string | null = null;
 
   // Conectar el formulario con nuestro grupo de controles
   credentialForm = new FormGroup({
@@ -25,14 +32,16 @@ export class InicioComponent {
     password: new FormControl('', [Validators.required]),
   });
 
-  errorMessage: string | null = null;
+  ngOnInit(): void {}
+  ngOnDestroy(): void {
+    this.loginSubscription?.unsubscribe();
+  }
 
   // Obtener las credenciales para iniciar sesión
   private getCredentials(): Credentials | null {
-    if (this.credentialForm.valid) {
-      return this.credentialForm.value as Credentials;
-    }
-    return null;
+    return this.credentialForm.valid
+      ? (this.credentialForm.value as Credentials)
+      : null;
   }
 
   //metodo para hacer la peticion de login
@@ -40,20 +49,27 @@ export class InicioComponent {
     const credentials = this.getCredentials();
 
     if (credentials) {
-      this.loginService.login(credentials).subscribe({
-        next: (res: any) => {
-          if (res?.token) {
-            this.loginService.setToken(res.token);
-            console.log(res);
-          }
-          this.errorMessage = null;
-        },
-        error: (err) => {
-          console.error(err);
-          this.errorMessage = err.message;
-          this.credentialForm.reset();
-        },
+      this.loginSubscription = this.loginService.login(credentials).subscribe({
+        next: (res: LoginResponse) => this.handleSuccess(res),
+        error: (err) => this.handleError(err),
       });
     }
+  }
+
+  private handleSuccess(res: LoginResponse): void {
+    if (res?.token) {
+      this.loginService.setToken(res.token);
+      this.loginService.setNameUser(res.nameUser);
+      this.loginService.setRolUser(res.rolUser);
+      setTimeout(() => {
+        this.router.navigate(['/principal']);
+      }, 2500);
+    }
+    this.errorMessage = null;
+  }
+
+  private handleError(err: any): void {
+    this.errorMessage = err.message;
+    this.credentialForm.reset();
   }
 }
