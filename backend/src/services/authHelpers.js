@@ -36,7 +36,7 @@ export const createPayload = (user) => {
   };
 
   if (user.category === "lider") {
-    payload.isAdmin = true;
+    payload.isLeader = true;
   }
 
   if (user.category === "pastor") {
