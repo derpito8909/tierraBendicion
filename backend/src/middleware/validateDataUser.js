@@ -43,12 +43,12 @@ export const validateDataUser = [
   check("password")
     .trim()
     .escape()
-    .isLength({ min: 6 })
-    .withMessage("La contraseña debe se minimo de 6 caracteres de longitud")
+    .isLength({ min: 8 })
+    .withMessage("La contraseña debe se minimo de 8 caracteres de longitud")
     .matches(/\d/)
     .withMessage("la contraseña debe tener almenos un numero")
     .matches(/[!@#$%^&*]/)
-    .withMessage("La contraseña debe tener un caracter especial"),
+    .withMessage("La contraseña debe tener alguno de estos caracteres especiales ! @ # $ % ^ & *"),
 
   (req, res, next) => {
     const errors = myValidationResult(req);
