@@ -25,6 +25,7 @@ export class InicioComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private loginSubscription: Subscription | null = null;
   errorMessage: string | null = null;
+  showLoader: boolean = false;
 
   // Conectar el formulario con nuestro grupo de controles
   credentialForm = new FormGroup({
@@ -50,8 +51,18 @@ export class InicioComponent implements OnInit, OnDestroy {
 
     if (credentials) {
       this.loginSubscription = this.loginService.login(credentials).subscribe({
-        next: (res: LoginResponse) => this.handleSuccess(res),
-        error: (err) => this.handleError(err),
+        next: (res: LoginResponse) => {
+          this.showLoader = true;
+          setTimeout(() => {
+            this.handleSuccess(res);
+          }, 1000);
+        },
+        error: (err) => {
+          this.showLoader = true;
+          setTimeout(() => {
+            this.handleError(err);
+          }, 1000);
+        },
       });
     }
   }
@@ -61,14 +72,13 @@ export class InicioComponent implements OnInit, OnDestroy {
       this.loginService.setToken(res.token);
       this.loginService.setNameUser(res.nameUser);
       this.loginService.setRolUser(res.rolUser);
-      setTimeout(() => {
-        this.router.navigate(['/principal']);
-      }, 2500);
+      this.router.navigate(['/principal']);
     }
     this.errorMessage = null;
   }
 
   private handleError(err: any): void {
+    this.showLoader = false;
     this.errorMessage = err.message;
     this.credentialForm.reset();
   }
