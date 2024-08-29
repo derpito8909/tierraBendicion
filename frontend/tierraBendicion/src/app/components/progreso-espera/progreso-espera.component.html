@@ -1,7 +1,9 @@
-<div
-  class="d-flex justify-content-center border border-danger"
-  *ngIf="showLoader"
->
-  <div class="spinner-border border border-primary" role="status"></div>
-</div>
+<!-- <div class="d-flex justify-content-center" *ngIf="showLoader">
+  <div class="spinner-border" role="status"></div>
+</div> -->
 <!-- [ngStyle]="{ display: showLoader ? 'block' : 'none' }" -->
+<div>
+  <div class="spinner-border text-light" role="status" *ngIf="showLoader">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
