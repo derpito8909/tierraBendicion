@@ -128,9 +128,6 @@ export const deleteItem = (model) => async (req, res, next) => {
 export const updateItem = (model) => async (req, res, next) => {
   const { id } = req.params; // Obtiene el ID de los parámetros de la URL.
   try {
-    if (req.body.password !== undefined) {
-      req.body.password = await decrypt.hash(req.body.password, 10);
-    }
     const item = await model.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }); // Actualiza el elemento por su ID con los datos del cuerpo de la solicitud.
 
     if (!item) {
