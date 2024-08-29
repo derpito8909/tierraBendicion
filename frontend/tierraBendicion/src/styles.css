@@ -22,7 +22,9 @@ body {
   height: 100vh;
   overflow-x: hidden;
   font-family: var(--textContent);
+  margin: 0;
 }
+
 /* efecto general para los botones */
 .efecto-hover {
   transition: background-color 0.25s ease;

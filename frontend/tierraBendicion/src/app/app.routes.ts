@@ -7,7 +7,9 @@ import { ActividadesEspecialesComponent } from './pages/actividades-especiales/a
 import { EducacionCristianaComponent } from './pages/educacion-cristiana/educacion-cristiana.component';
 import { PrincipalComponent } from './pages/principal/principal.component';
 import { AdministracionUsuariosComponent } from './pages/administracion-usuarios/administracion-usuarios.component';
+import { NuevoUsuarioComponent } from './pages/administracion-usuarios/nuevo-usuario/nuevo-usuario.component';
 import { authGuard } from './guards/auth.guard';
+import { rolAuthGuard } from './guards/rol-auth.guard';
 
 export const routes: Routes = [
   {
@@ -27,7 +29,17 @@ export const routes: Routes = [
   {
     path: 'administracionUsuarios',
     component: AdministracionUsuariosComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, rolAuthGuard],
+  },
+  {
+    path: 'administracionUsuarios/nuevo',
+    component: NuevoUsuarioComponent,
+    canActivate: [authGuard, rolAuthGuard],
+  },
+  {
+    path: 'administracionUsuarios/edit/:id',
+    component: NuevoUsuarioComponent,
+    canActivate: [authGuard, rolAuthGuard],
   },
   {
     path: 'educacionCristiana',
