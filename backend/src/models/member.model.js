@@ -21,7 +21,7 @@ const memberSchema = new mongoose.Schema(
       required: true,
     },
     visitAccepted: {
-      type: Boolean,
+      type: String,
       required: true,
     },
     visitTime: {
