@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createItem, deleteItem, getAllItems, getItemById, updateItem } from "../controllers/controllers.js";
+import { createItem, deleteItem, getAllItems, getItemById, updateItem, getItemByRol } from "../controllers/controllers.js";
 import { authRol } from "../middleware/auth.js";
 import { validateDataUser } from "../middleware/validateDataUser.js";
 import { validateDataActivity } from "../middleware/validateDataActivity.js";
@@ -46,7 +46,6 @@ export const createRoutesForModel = (model, routeName, app, admin = false) => {
   const router = Router();
   // Selecciona el middleware de validación adecuado basado en el nombre de la ruta.
   const validateData = validationMiddlewares[routeName] || ((req, res, next) => next());
-
   /**
    * Ruta para crear un nuevo ítem.
    * @route POST /
@@ -63,10 +62,16 @@ export const createRoutesForModel = (model, routeName, app, admin = false) => {
    */
   router.get("/", getAllItems(model));
   /**
+   * Ruta para obtener todos los ítems por el rol lider.
+   * @route GET /rol
+   */
+  router.get("/rol", getItemByRol(model));
+  /**
    * Ruta para obtener un ítem por su ID.
    * @route GET /:id
    */
   router.get("/:id", validateObjectId, getItemById(model));
+
   /**
    * Ruta para eliminar un ítem por su ID.
    * @route DELETE /:id

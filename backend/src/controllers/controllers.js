@@ -64,6 +64,26 @@ export const getItemById = (model) => async (req, res, next) => {
     next(error);
   }
 };
+/**
+ * Obtiene un elemento por rol
+ *
+ * Este método recupera todos los documentos de la colección asociada al rol lider
+ *
+ * @param {mongoose.Model} model - El modelo de Mongoose que se utilizará para la búsqueda.
+ * @returns {function} Middleware de Express para manejar la solicitud.
+ */
+export const getItemByRol = (model) => async (req, res, next) => {
+  try {
+    const items = await model.find({ category: "lider" });
+
+    if (items.length === 0) {
+      return next(new NotFoundError("registro no encontrado"));
+    }
+    res.status(200).send(items);
+  } catch (error) {
+    next(error);
+  }
+};
 
 /**
  * Crea un nuevo elemento.

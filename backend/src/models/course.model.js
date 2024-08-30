@@ -24,10 +24,6 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    requirement: {
-      type: [String],
-      required: true,
-    },
   },
   {
     timestamps: true,

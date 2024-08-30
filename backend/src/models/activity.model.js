@@ -20,7 +20,7 @@ const activitySchema = new mongoose.Schema(
     activityLeader: [
       {
         type: Schema.Types.ObjectId,
-        ref: "activityLeader",
+        ref: "user",
       },
     ],
   },

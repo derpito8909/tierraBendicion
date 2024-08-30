@@ -42,10 +42,12 @@ const memberSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    completedCourses: {
-      type: [String],
-      required: true,
-    },
+    completedCourses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "course",
+      },
+    ],
   },
   {
     timestamps: true,
