@@ -17,7 +17,7 @@ const activitySchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    activityLeader: [
+    user: [
       {
         type: Schema.Types.ObjectId,
         ref: "user",
