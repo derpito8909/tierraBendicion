@@ -67,14 +67,15 @@ export const getItemById = (model) => async (req, res, next) => {
 /**
  * Obtiene un elemento por rol
  *
- * Este método recupera todos los documentos de la colección asociada al rol lider
+ * Este método recupera todos los documentos de la colección asociada un rol en especifico
  *
  * @param {mongoose.Model} model - El modelo de Mongoose que se utilizará para la búsqueda.
  * @returns {function} Middleware de Express para manejar la solicitud.
  */
 export const getItemByRol = (model) => async (req, res, next) => {
+  const { rol } = req.params;
   try {
-    const items = await model.find({ category: "lider" });
+    const items = await model.find({ category: rol });
 
     if (items.length === 0) {
       return next(new NotFoundError("registro no encontrado"));

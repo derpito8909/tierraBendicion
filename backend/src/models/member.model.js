@@ -42,7 +42,7 @@ const memberSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    completedCourses: [
+    course: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "course",

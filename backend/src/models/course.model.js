@@ -6,10 +6,10 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    teacher: [
+    user: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "teacher",
+        ref: "user",
       },
     ],
     dateStart: {

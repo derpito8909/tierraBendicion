@@ -62,10 +62,10 @@ export const createRoutesForModel = (model, routeName, app, admin = false) => {
    */
   router.get("/", getAllItems(model));
   /**
-   * Ruta para obtener todos los ítems por el rol lider.
-   * @route GET /rol
+   * Ruta para obtener todos los ítems por un rol especifico
+   * @route GET /:rol
    */
-  router.get("/rol", getItemByRol(model));
+  router.get("/:rol", getItemByRol(model));
   /**
    * Ruta para obtener un ítem por su ID.
    * @route GET /:id
