@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { createItem, deleteItem, getAllItems, getItemById, updateItem, getItemByRol } from "../controllers/controllers.js";
+import { createItem, deleteItem, getAllItems, getItemById, updateItem, getItemByRol, changePasswordUser, updateCurrentUser, getCurrentUser } from "../controllers/controllers.js";
 import { authRol } from "../middleware/auth.js";
 import { validateDataUser } from "../middleware/validateDataUser.js";
 import { validateDataActivity } from "../middleware/validateDataActivity.js";
 import { validateDataCourse } from "../middleware/validateDataCourse.js";
 import { validateDataMember } from "../middleware/validateDataMember.js";
 import { validateObjectId } from "../middleware/validateDataID.js";
+import { validatePasswordUser } from "../middleware/validatePasswordData.js";
 
 /**
  * Mapeo de nombres de ruta a middlewares de validación.
@@ -42,7 +43,7 @@ const validationMiddlewares = {
  * // Crear rutas para el modelo de usuarios bajo la ruta "/users"
  * createRoutesForModel(UserModel, "users", app);
  */
-export const createRoutesForModel = (model, routeName, app, admin = false) => {
+export const createRoutesForModel = (model, routeName, app) => {
   const router = Router();
   // Selecciona el middleware de validación adecuado basado en el nombre de la ruta.
   const validateData = validationMiddlewares[routeName] || ((req, res, next) => next());
@@ -50,35 +51,53 @@ export const createRoutesForModel = (model, routeName, app, admin = false) => {
    * Ruta para crear un nuevo ítem.
    * @route POST /
    */
-  router.post("/", validateData, createItem(model));
+  router.post("/", authRol(""), validateData, createItem(model));
+
   /**
    * Ruta para actualizar un ítem existente por ID.
    * @route PUT /:id
    */
-  router.put("/:id", validateObjectId, validateData, updateItem(model));
+  router.put("/:id", authRol("pastor"), validateObjectId, updateItem(model));
   /**
    * Ruta para obtener todos los ítems.
    * @route GET /
    */
-  router.get("/", getAllItems(model));
-  /**
-   * Ruta para obtener todos los ítems por un rol especifico
-   * @route GET /:rol
-   */
-  router.get("/:rol", getItemByRol(model));
+  router.get("/", authRol(""), getAllItems(model));
   /**
    * Ruta para obtener un ítem por su ID.
    * @route GET /:id
    */
-  router.get("/:id", validateObjectId, getItemById(model));
+  router.get("/:id", authRol(""), validateObjectId, getItemById(model));
 
   /**
    * Ruta para eliminar un ítem por su ID.
    * @route DELETE /:id
    */
-  router.delete("/:id", validateObjectId, deleteItem(model));
+  router.delete("/:id", authRol("pastor"), validateObjectId, deleteItem(model));
 
-  // Define el rol necesario para acceder a las rutas si se requiere autenticación basada en roles.
-  const role = admin ? "pastor" : "";
-  app.use(`/${routeName}`, authRol(role), router);
+  /**
+   * Ruta para obtener todos los ítems por un rol especifico
+   * @route GET /:rol
+   */
+  router.get("/role/:rol", authRol(""), getItemByRol(model));
+
+  /**
+   * Ruta para obtener todos los ítems por un rol especifico
+   * @route GET /profile/get
+   */
+  router.get("/profile/get", authRol(""), getCurrentUser(model));
+
+  /**
+   * Ruta actualizar la constraseña del usuario que inicio sesion
+   * @route POST /profile/change-password
+   */
+  router.post("/profile/change-password", authRol(""), validatePasswordUser, changePasswordUser(model));
+
+  /**
+   * Ruta actualizar la informacion del usuario que tiene iniciada la sesion
+   * @route PUT /profile/update/
+   */
+  router.put("/profile/update", authRol(""), updateCurrentUser(model));
+
+  app.use(`/${routeName}`, router);
 };

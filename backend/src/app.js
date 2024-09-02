@@ -34,11 +34,9 @@ app.use(express.json());
 app.use(cors()); // configura el servidor para que acepte peticiones desde un navegador
 
 // create las rutas para los modelos especificos
-createRoutesForModel(userModel, "users", app, true);
-createRoutesForModel(teacherModel, "teachers", app);
+createRoutesForModel(userModel, "users", app);
 createRoutesForModel(memberModel, "members", app);
 createRoutesForModel(courseModel, "courses", app);
-createRoutesForModel(activityLeaderModel, "activityLeaders", app);
 createRoutesForModel(activityModel, "activities", app);
 
 //ruta para el servicio de login

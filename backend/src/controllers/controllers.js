@@ -59,7 +59,26 @@ export const getItemById = (model) => async (req, res, next) => {
     if (!item) {
       return next(new NotFoundError("registro no encontrado"));
     }
-    res.status(200).send(item);
+    // se consige los campos del esquema en especifico de la ruta que se esta consumiendo
+    const schemaPaths = model.schema.paths;
+    let itemWithPopulate;
+    /* se hace una iteracion con los campos para verificar dinamicamente si
+   un campo es de tipo referencia para traer los datos de la referencia   */
+    for (let path in schemaPaths) {
+      const fieldPath = schemaPaths[path];
+      //fieldPath: las propiedades de de los diferentes campos del esquema
+      //fieldPath.caster: La configuracion de elementos individuales del array
+
+      if (fieldPath && fieldPath.caster && fieldPath.caster.options.ref) {
+        const nameRef = fieldPath.caster.options.ref;
+        itemWithPopulate = await model.find({}).populate(nameRef);
+      }
+    }
+    if (itemWithPopulate !== undefined) {
+      res.status(200).send(itemWithPopulate);
+    } else {
+      res.status(200).send(item);
+    }
   } catch (error) {
     next(error);
   }
@@ -115,6 +134,88 @@ export const createItem = (model) => async (req, res, next) => {
     }
   }
 };
+/**
+ * Obtiene la informacion del usuario que inicio sesion
+ *
+ * Este método obtiene la informacion del usuario que inicio sesion
+ *
+ * @param {mongoose.Model} model - El modelo usuario de Mongoose que se utilizará obtener la informacion del usuario en especifico
+ * @returns {function} Middleware de Express para manejar la solicitud.
+ */
+export const getCurrentUser = (model) => async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const user = await model.findById(userId);
+    if (!user) {
+      return next(new NotFoundError("Usuario no encontrado"));
+    }
+    res.status(200).send(user);
+  } catch (error) {
+    next(error);
+  }
+};
+/**
+ * Actualiza la informacion del usuario que inicio sesion
+ *
+ * Este método actualiza la informacion del usuario que inicio sesion
+ *
+ * @param {mongoose.Model} model - El modelo usuario de Mongoose que se utilizará actualizar la informacion del usuario en especifico
+ * @returns {function} Middleware de Express para manejar la solicitud.
+ */
+export const updateCurrentUser = (model) => async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const updatedUser = await model.findByIdAndUpdate(userId, req.body, { new: true, runValidators: true });
+    if (!updatedUser) {
+      return next(new NotFoundError("Usuario no encontrado"));
+    }
+    res.status(200).send({
+      mensaje: "Perfil actualizado correctamente",
+      datos: updatedUser,
+    });
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      return next(new ValidationError(error.message));
+    } else {
+      return next(new InternalServerError(`Error al actualizar el perfil: ${error.message}`));
+    }
+  }
+};
+/**
+ * Cambia la contraseña del usaurio que inicio sesion
+ *
+ * Este método obtiene la contraseña actual y la contraseña que se quiere cambiar, se realiza una validacion para identificar que la contraseña actual corresponda al usuario, si es correcto, actualiza a la nueva contraseña enviada, de lo contrario envia error.
+ *
+ * @param {mongoose.Model} model - El modelo usuario de Mongoose que se utilizará cambiar la contraseña del usuario
+ * @returns {function} Middleware de Express para manejar la solicitud.
+ */
+export const changePasswordUser = (model) => async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const { oldPassword, newPassword } = req.body;
+
+    const user = await model.findById(userId);
+    if (!user) {
+      return next(new NotFoundError("Usuario no encontrado"));
+    }
+
+    const isMatch = await decrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return next(new ValidationError("La contraseña actual es incorrecta"));
+    }
+
+    user.password = await decrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.status(200).send({ mensaje: "Contraseña actualizada correctamente" });
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      return next(new ValidationError(error.message));
+    } else {
+      return next(new InternalServerError(`Error al cambiar la contraseña: ${error.message}`));
+    }
+  }
+};
 
 /**
  * Elimina un elemento por su ID.
@@ -149,6 +250,9 @@ export const deleteItem = (model) => async (req, res, next) => {
 export const updateItem = (model) => async (req, res, next) => {
   const { id } = req.params; // Obtiene el ID de los parámetros de la URL.
   try {
+    if (model === "users" && req.body.password) {
+      delete req.body.password;
+    }
     const item = await model.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }); // Actualiza el elemento por su ID con los datos del cuerpo de la solicitud.
 
     if (!item) {
