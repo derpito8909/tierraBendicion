@@ -6,6 +6,8 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { Credentials } from '../../interfaces/credentials';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
@@ -16,7 +18,13 @@ import { LoginResponse } from '../../interfaces/login-response';
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ProgresoEsperaComponent],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    ProgresoEsperaComponent,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css',
 })
@@ -48,7 +56,7 @@ export class InicioComponent implements OnInit, OnDestroy {
   //metodo para hacer la peticion de login
   onLogin(): void {
     const credentials = this.getCredentials();
-
+    this.showLoader = true;
     if (credentials) {
       this.loginSubscription = this.loginService.login(credentials).subscribe({
         next: (res: LoginResponse) => {
