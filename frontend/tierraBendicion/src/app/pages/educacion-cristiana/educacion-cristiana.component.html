@@ -1,0 +1,47 @@
+<app-navegacion></app-navegacion>
+<section
+  class="cursos d-flex flex-column align-items-center align-lg-content-center gap-4 gap-lg-5"
+>
+  <nav aria-label="breadcrumb" class="w-100 container-breadcrumb">
+    <ol class="breadcrumb mx-3 my-3 my-md-5">
+      <li class="breadcrumb-item">
+        <a routerLink="/principal">Inicio</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Educación Cristiana
+      </li>
+    </ol>
+  </nav>
+  <div
+    class="d-flex flex-md-row flex-column justify-content-center align-items-center gap-3 gap-md-5 mt-md-4 p-md-4 p-3"
+  >
+    <article class="align-content-center text-center text-md-start">
+      <h2>Gestion Educación Cristiana</h2>
+      <p class="text-start lh-base fs-6">
+        En esta sección puedes gestionar el proceso de la educación cristiana de
+        los miembros de tierra de bendición.<br />
+        Seleciona crear curso para administrar las convocatorias de los cursos
+        que estan disponibles para los miembros. <br />Seleciona el botón ver
+        cursos para ver que ya fueron creados
+      </p>
+    </article>
+    <div
+      class="d-flex flex-column justify-content-center align-items-center align-items-md-start gap-3 gap-md-4"
+    >
+      <button
+        class="btn color-boton efecto-hover w-100 w-md-auto"
+        role="button"
+        routerLink="/educacionCristiana/curso/nuevo"
+      >
+        crear curso
+      </button>
+      <button
+        class="btn color-boton efecto-hover w-100 w-md-auto"
+        role="button"
+        routerLink="/educacionCristiana/curso/list"
+      >
+        ver cursos
+      </button>
+    </div>
+  </div>
+</section>

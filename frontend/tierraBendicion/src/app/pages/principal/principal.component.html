@@ -1,0 +1,89 @@
+<app-navegacion></app-navegacion>
+<section class="home d-flex flex-column">
+  <nav aria-label="breadcrumb" class="w-100 container-breadcrumb">
+    <ol class="breadcrumb mx-4 my-md-5">
+      <li class="breadcrumb-item active" aria-current="page">Inicio</li>
+    </ol>
+  </nav>
+  <div class="d-flex flex-column justify-content-center align-items-center">
+    <article class="welcome mx-5 my-4 text-start">
+      <h1>Bienvenido {{ getNameUser() }} a Tierra de Bendición</h1>
+      <h4>Selecciona alguna de estas categorías en las que quieras trabajar</h4>
+    </article>
+    <section class="container categorias">
+      <div class="row g-3">
+        <div class="col-sm-6 {{ accessUserAdmin() ? 'col-md-3' : 'col-md-4' }}">
+          <div class="card">
+            <img
+              src="people.jpeg"
+              class="card-img-top"
+              alt="miembros iglesia"
+            />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Registrar Miembros</h5>
+              <a
+                routerLink="/miembros"
+                class="btn color-boton efecto-hover mt-auto"
+                >Ir <i class="bi bi-chevron-right"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 {{ accessUserAdmin() ? 'col-md-3' : 'col-md-4' }}">
+          <div class="card">
+            <img src="Activities.jpg" class="card-img-top" alt="Actividades" />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">
+                Registrar una actividad o servicio especial
+              </h5>
+              <a
+                routerLink="/actividadesEspeciales"
+                class="btn color-boton efecto-hover mt-auto"
+                >Ir <i class="bi bi-chevron-right"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 {{ accessUserAdmin() ? 'col-md-3' : 'col-md-4' }}">
+          <div class="card">
+            <img
+              src="edCristiana.jpg"
+              class="card-img-top"
+              alt="educacion cristiana"
+            />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">
+                Gestión del proceso de formación en educación cristiana
+              </h5>
+              <a
+                routerLink="/educacionCristiana"
+                class="btn color-boton efecto-hover mt-auto"
+                >Ir <i class="bi bi-chevron-right"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col-sm-6 col-md-3"
+          [ngStyle]="{ display: accessUserAdmin() ? 'block' : 'none' }"
+        >
+          <div class="card">
+            <img
+              src="usuarios.png"
+              class="card-img-top"
+              alt="gestión usuarios"
+            />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Gestión de la información de usuarios</h5>
+              <a
+                routerLink="/administracionUsuarios"
+                class="btn btn-danger efecto-hover mt-auto"
+                >Ir <i class="bi bi-chevron-right"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>

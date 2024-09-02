@@ -1,0 +1,123 @@
+<app-navegacion></app-navegacion>
+<section class="nuevo-usuario d-flex flex-column align-items-center p-3">
+  <nav aria-label="breadcrumb" class="w-100 container-breadcrumb">
+    <ol class="breadcrumb mx-3 my-3 my-md-3">
+      <li class="breadcrumb-item">
+        <a routerLink="/principal">Inicio</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="/administracionUsuarios">Administracion Usuarios</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        información Usuario
+      </li>
+    </ol>
+  </nav>
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center gap-3">
+        <div
+          class="col-md-6 col-lg-7 d-flex align-items-center justify-content-center"
+        >
+          <h2>
+            {{ isEditMode ? "Editar Usuario" : "Crear Usuario" }}
+          </h2>
+        </div>
+        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+          <form
+            class="example-form"
+            [formGroup]="userForm"
+            (ngSubmit)="onSubmit()"
+          >
+            <!-- Campo de nombre completo -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Nombre Completo</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="fullname"
+                [class.is-invalid]="
+                  userForm.get('fullname')?.invalid &&
+                  userForm.get('fullname')?.touched
+                "
+              />
+              <mat-error *ngIf="userForm.get('fullname')?.hasError('required')">
+                El nombre completo es <strong>obligatorio.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo de correo electronico -->
+            <mat-form-field class="rounded example-full-width">
+              <mat-label>Correo Electrónico</mat-label>
+              <input
+                matInput
+                type="email"
+                [disabled]="true"
+                formControlName="email"
+                [class.is-invalid]="
+                  userForm.get('email')?.invalid &&
+                  userForm.get('email')?.touched
+                "
+              />
+              <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+                El nombre correo es <strong>obligatorio.</strong>
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  userForm.get('email')?.hasError('email') &&
+                  !userForm.get('email')?.hasError('required')
+                "
+              >
+                Digite un correo electronico valido
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo de Contraseña -->
+            <mat-form-field appearance="fill" class="example-full-width">
+              <mat-label>Contraseña</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="password"
+                [class.is-invalid]="
+                  userForm.get('password')?.invalid &&
+                  userForm.get('password')?.touched
+                "
+              />
+              <mat-error *ngIf="userForm.get('password')?.hasError('required')">
+                la contraseña es <strong>obligatoria.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo de Selección de Categoría -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Categoría</mat-label>
+              <mat-select formControlName="category">
+                <mat-option
+                  *ngFor="let category of categories"
+                  [value]="category"
+                >
+                  {{ category }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="userForm.get('category')?.hasError('required')">
+                la categoria es <strong>obligatoria.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Botón de Enviar -->
+            <button class="btn color-boton efecto-hover w-100" type="submit">
+              {{ isEditMode ? "Actualizar" : "Crear" }}
+              <app-progreso-espera
+                [showLoader]="showLoader"
+              ></app-progreso-espera>
+            </button>
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

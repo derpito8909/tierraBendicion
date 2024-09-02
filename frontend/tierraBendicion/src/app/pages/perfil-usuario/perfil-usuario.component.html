@@ -1,0 +1,83 @@
+<app-navegacion></app-navegacion>
+<section class="nuevo d-flex flex-column align-items-center p-3">
+  <nav aria-label="breadcrumb" class="w-100 container-breadcrumb">
+    <ol class="breadcrumb mx-3 my-3 my-md-3">
+      <li class="breadcrumb-item">
+        <a routerLink="/principal">Inicio</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Perfil usuario</li>
+    </ol>
+  </nav>
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center gap-3">
+        <div
+          class="col-md-6 col-lg-7 d-flex align-items-center justify-content-center"
+        >
+          <h2>Perfil Usuario</h2>
+        </div>
+        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+          <form
+            class="example-form"
+            [formGroup]="profileForm"
+            (ngSubmit)="onSubmit()"
+          >
+            <!-- Campo de nombre actividad -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Nombre</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="fullname"
+                [class.is-invalid]="
+                  profileForm.get('fullname')?.invalid &&
+                  profileForm.get('fullname')?.touched
+                "
+              />
+              <mat-error *ngIf="profileForm.get('name')?.hasError('required')">
+                El nombre es <strong>obligatorio.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo email -->
+            <mat-form-field class="rounded example-full-width">
+              <mat-label>Correo Electrónico</mat-label>
+              <input
+                matInput
+                type="email"
+                [disabled]="true"
+                formControlName="email"
+                [class.is-invalid]="
+                  profileForm.get('email')?.invalid &&
+                  profileForm.get('email')?.touched
+                "
+              />
+              <mat-error *ngIf="profileForm.get('email')?.hasError('required')">
+                El nombre correo es <strong>obligatorio.</strong>
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  profileForm.get('email')?.hasError('email') &&
+                  !profileForm.get('email')?.hasError('required')
+                "
+              >
+                Digite un correo electronico valido
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Botón de Enviar -->
+            <button class="btn color-boton efecto-hover w-100" type="submit">
+              Actualizar
+              <app-progreso-espera
+                [showLoader]="showLoader"
+              ></app-progreso-espera>
+            </button>
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

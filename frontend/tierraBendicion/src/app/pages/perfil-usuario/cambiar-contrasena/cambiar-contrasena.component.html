@@ -1,0 +1,104 @@
+<app-navegacion></app-navegacion>
+<section class="nuevo d-flex flex-column align-items-center p-3">
+  <nav aria-label="breadcrumb" class="w-100 container-breadcrumb">
+    <ol class="breadcrumb mx-3 my-3 my-md-3">
+      <li class="breadcrumb-item">
+        <a routerLink="/principal">Inicio</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Cambiar Contraseña
+      </li>
+    </ol>
+  </nav>
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center gap-3">
+        <div
+          class="col-md-6 col-lg-7 d-flex align-items-center justify-content-center"
+        >
+          <h2>Cambiar contraseña</h2>
+        </div>
+        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+          <form
+            class="example-form"
+            [formGroup]="changePaswordForm"
+            (ngSubmit)="onSubmit()"
+          >
+            <!-- Campo de Contraseña actual -->
+            <mat-form-field appearance="fill" class="example-full-width">
+              <mat-label>Contraseña Actual</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="oldPassword"
+                [class.is-invalid]="
+                  changePaswordForm.get('oldPassword')?.invalid &&
+                  changePaswordForm.get('oldPassword')?.touched
+                "
+              />
+              <mat-error
+                *ngIf="
+                  changePaswordForm.get('oldPassword')?.hasError('required')
+                "
+              >
+                la contraseña Actual es <strong>obligatoria.</strong>
+              </mat-error>
+            </mat-form-field>
+            <!-- Campo de Contraseña nueva -->
+            <mat-form-field appearance="fill" class="example-full-width">
+              <mat-label>Contraseña Nueva</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="newPassword"
+                [class.is-invalid]="
+                  changePaswordForm.get('newPassword')?.invalid &&
+                  changePaswordForm.get('newPassword')?.touched
+                "
+              />
+              <mat-error
+                *ngIf="
+                  changePaswordForm.get('newPassword')?.hasError('required')
+                "
+              >
+                la contraseña nueva es <strong>obligatoria.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo de Contraseña nueva -->
+            <mat-form-field appearance="fill" class="example-full-width">
+              <mat-label>Confirmacion Contraseña Nueva</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="confirmPassword"
+                [class.is-invalid]="
+                  changePaswordForm.get('confirmPassword')?.invalid &&
+                  changePaswordForm.get('confirmPassword')?.touched
+                "
+              />
+            </mat-form-field>
+            <div
+              *ngIf="
+                'changePaswordForm.errors?.passwordsMismatch' &&
+                changePaswordForm?.touched
+              "
+            >
+              Las contraseñas no coinciden.
+            </div>
+            <!-- Botón de Enviar -->
+            <button class="btn color-boton efecto-hover w-100" type="submit">
+              Cambiar Contraseña
+              <app-progreso-espera
+                [showLoader]="showLoader"
+              ></app-progreso-espera>
+            </button>
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

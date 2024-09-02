@@ -1,0 +1,86 @@
+/* importaciones */
+@import url("https://fonts.cdnfonts.com/css/roboto");
+
+/* variables */
+:root {
+  /* Fuentes */
+  --textContent: "Roboto Medium", sans-serif;
+  --colorFondo: #9cbd93;
+  --colorFondo2: #eceeef;
+  --colorEnfasis1: #0d4a23;
+  --colorEnfasis2: #4b3d3a;
+}
+/* condiciones generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: var(--colorFondo);
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  font-family: var(--textContent);
+  margin: 0;
+}
+
+/* efecto general para los botones */
+.efecto-hover {
+  transition: background-color 0.25s ease;
+}
+.efecto-hover:hover {
+  background-color: var(--colorFondo);
+  border: 1px solid var(--colorEnfasis1);
+  border-radius: 4px;
+}
+
+.efecto-hover:active,
+.mi-lista:focus {
+  outline: none;
+}
+
+.color-boton {
+  background-color: var(--colorEnfasis1);
+  color: azure;
+}
+
+/* estilo para el menu de navegacion alternativa  */
+
+.container-breadcrumb {
+  margin-top: 100px;
+}
+
+.breadcrumb-item > a {
+  color: black;
+}
+
+/* estilo para crear el formularios */
+.nuevo {
+  width: 100vw;
+  height: 100vh;
+  background-color: #eceeef;
+  overflow-y: auto;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .container-breadcrumb {
+    margin-top: 200px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-breadcrumb {
+    margin-top: 100px;
+  }
+}

@@ -1,0 +1,172 @@
+<app-navegacion></app-navegacion>
+<section class="nuevo-miembro d-flex flex-column align-items-center p-3">
+  <nav aria-label="breadcrumb" class="w-100 container-breadcrumb">
+    <ol class="breadcrumb mx-3 my-3 my-md-3">
+      <li class="breadcrumb-item">
+        <a routerLink="/principal">Inicio</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="/miembros">Miembros</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Crear Miembro</li>
+    </ol>
+  </nav>
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center gap-3">
+        <div
+          class="col-md-6 col-lg-7 d-flex align-items-center justify-content-center"
+        >
+          <h2>
+            {{ isEditMode ? "Editar Miembro" : "Crear Miembro" }}
+          </h2>
+        </div>
+        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+          <form
+            class="example-form"
+            [formGroup]="memberForm"
+            (ngSubmit)="onSubmit()"
+          >
+            <!-- Campo de nombre completo -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Nombre Completo</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="fullname"
+                [class.is-invalid]="
+                  memberForm.get('fullname')?.invalid &&
+                  memberForm.get('fullname')?.touched
+                "
+              />
+              <mat-error
+                *ngIf="memberForm.get('fullname')?.hasError('required')"
+              >
+                El nombre completo es <strong>obligatorio.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo de direccion -->
+            <mat-form-field class="rounded example-full-width">
+              <mat-label>Direccion</mat-label>
+              <input matInput type="text" formControlName="address" />
+            </mat-form-field>
+            <!-- Campo de barrio -->
+            <mat-form-field class="rounded example-full-width">
+              <mat-label>Barrio</mat-label>
+              <input matInput type="text" formControlName="neighbourhood" />
+            </mat-form-field>
+            <!-- Campo de telefono -->
+            <mat-form-field appearance="fill" class="example-full-width">
+              <mat-label>Telefono</mat-label>
+              <input
+                matInput
+                type="tel"
+                formControlName="cellPhoneNumber"
+                [class.is-invalid]="
+                  memberForm.get('cellPhoneNumber')?.invalid &&
+                  memberForm.get('cellPhoneNumber')?.touched
+                "
+              />
+              <mat-error
+                *ngIf="memberForm.get('cellPhoneNumber')?.hasError('required')"
+              >
+                El numero de telefono es <strong>obligatorio.</strong>
+              </mat-error>
+            </mat-form-field>
+            <!-- Campo de referencia -->
+            <mat-form-field class="rounded example-full-width">
+              <mat-label>Persona quien lo invito</mat-label>
+              <input matInput type="text" formControlName="reference" />
+            </mat-form-field>
+            <!-- Campo de Selección de invitacion -->
+            <mat-form-field class="example-full-width">
+              <mat-label>¿ Desea una visita para conocer la biblia?</mat-label>
+              <mat-select formControlName="visitAccepted">
+                <mat-option value="si">si</mat-option>
+                <mat-option value="no">no</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="memberForm.get('visitAccepted')?.hasError('required')"
+              >
+                la invitacion es <strong>obligatoria.</strong>
+              </mat-error>
+            </mat-form-field>
+            <!-- Campo de tiempo de invitacion -->
+            <mat-form-field class="rounded example-full-width">
+              <mat-label>¿A que horas?</mat-label>
+              <input matInput type="text" formControlName="visitTime" />
+            </mat-form-field>
+
+            <!-- Campo de Selección de Categoría -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Estado civil</mat-label>
+              <mat-select formControlName="maritalStatus">
+                <mat-option
+                  *ngFor="let status of maritalStatus"
+                  [value]="status"
+                >
+                  {{ status }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="memberForm.get('maritalStatus')?.hasError('required')"
+              >
+                El estado civil es <strong>obligatoria.</strong>
+              </mat-error>
+            </mat-form-field>
+            <!-- Campo de Edad -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Edad</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="age"
+                [class.is-invalid]="
+                  memberForm.get('age')?.invalid &&
+                  memberForm.get('age')?.touched
+                "
+              />
+              <mat-error *ngIf="memberForm.get('age')?.hasError('required')">
+                La edad es <strong>obligatoria.</strong>
+              </mat-error>
+            </mat-form-field>
+            <!-- Campo de peticion de oracion -->
+            <mat-form-field class="rounded example-full-width">
+              <mat-label>Peticion de oración</mat-label>
+              <textarea matInput formControlName="prayerRequest"></textarea>
+            </mat-form-field>
+            <!-- Campo de Selección de cursos completados -->
+            <mat-form-field class="example-full-width">
+              <mat-label>¿Cual escuela ha realizado?</mat-label>
+              <mat-select formControlName="course">
+                <mat-option
+                  *ngFor="let courses of displayedCourses"
+                  [value]="courses._id"
+                >
+                  {{ courses.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <section class="example-section">
+              <mat-checkbox class="example-margin" checked="true"
+                >Activo</mat-checkbox
+              >
+            </section>
+
+            <!-- Botón de Enviar -->
+            <button class="btn color-boton efecto-hover w-100" type="submit">
+              {{ isEditMode ? "Actualizar" : "Crear" }}
+              <app-progreso-espera
+                [showLoader]="showLoader"
+              ></app-progreso-espera>
+            </button>
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,18 @@
+.table-responsive {
+  overflow-x: auto;
+}
+.usuarios {
+  width: 100vw;
+  height: 100vh;
+  background-color: #eceeef;
+}
+
+.table td,
+.table th {
+  white-space: nowrap; /* Evita que el texto se rompa en líneas nuevas */
+}
+
+.mat-elevation-z8 {
+  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2),
+    0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
+}

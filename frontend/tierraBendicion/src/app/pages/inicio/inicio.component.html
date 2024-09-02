@@ -1,0 +1,114 @@
+<section class="vh-100" style="background-color: #9cbd93">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-10">
+        <div class="card" style="border-radius: 1rem">
+          <div class="row g-0">
+            <div
+              class="col-md-6 col-lg-5 d-none d-md-block"
+              style="margin: 100px auto"
+            >
+              <img
+                src="logo.png"
+                alt="logo tierra bendicion"
+                class="img-fluid"
+                style="border-radius: 1rem 0 0 1rem"
+              />
+            </div>
+            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+              <div class="card-body p-4 p-lg-5 text-black">
+                <div class="d-lg-none d-md-block">
+                  <img
+                    src="logo.png"
+                    class="card-img-top"
+                    alt="educacion cristiana"
+                  />
+                </div>
+                <form [formGroup]="credentialForm" (ngSubmit)="onLogin()">
+                  <h2
+                    class="fw-normal mb-3 pb-3 text-center"
+                    style="letter-spacing: 1px"
+                  >
+                    Ingresa a tu cuenta
+                  </h2>
+                  <mat-form-field class="rounded example-full-width">
+                    <mat-label>Correo Electrónico</mat-label>
+                    <input
+                      matInput
+                      type="email"
+                      [disabled]="true"
+                      formControlName="email"
+                      [class.is-invalid]="
+                        credentialForm.get('email')?.invalid &&
+                        credentialForm.get('email')?.touched
+                      "
+                    />
+                    <mat-error
+                      *ngIf="credentialForm.get('email')?.hasError('required')"
+                    >
+                      El nombre correo es <strong>obligatorio.</strong>
+                    </mat-error>
+                    <mat-error
+                      *ngIf="
+                        credentialForm.get('email')?.hasError('email') &&
+                        !credentialForm.get('email')?.hasError('required')
+                      "
+                    >
+                      Digite un correo electronico valido
+                    </mat-error>
+                  </mat-form-field>
+                  <!-- Campo de Contraseña -->
+                  <mat-form-field appearance="fill" class="example-full-width">
+                    <mat-label>Contraseña</mat-label>
+                    <input
+                      matInput
+                      type="password"
+                      formControlName="password"
+                      [class.is-invalid]="
+                        credentialForm.get('password')?.invalid &&
+                        credentialForm.get('password')?.touched
+                      "
+                    />
+                    <mat-error
+                      *ngIf="
+                        credentialForm.get('password')?.hasError('required')
+                      "
+                    >
+                      la contraseña es <strong>obligatoria.</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <div class="pt-1 mb-4">
+                    <button
+                      data-mdb-button-init
+                      data-mdb-ripple-init
+                      class="btn color-boton efecto-hover w-100"
+                      type="submit"
+                    >
+                      Inicio Sesión
+                      <app-progreso-espera
+                        [showLoader]="showLoader"
+                      ></app-progreso-espera>
+                    </button>
+                  </div>
+
+                  <div
+                    *ngIf="errorMessage"
+                    class="alert alert-danger"
+                    role="alert"
+                  >
+                    {{ errorMessage }}
+                  </div>
+
+                  <a class="small text-muted" href="#!"
+                    >¿Olvidaste la contraseña?</a
+                  >
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

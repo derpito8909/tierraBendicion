@@ -1,0 +1,111 @@
+<app-navegacion></app-navegacion>
+<section class="nuevo-curso d-flex flex-column align-items-center p-3">
+  <nav aria-label="breadcrumb" class="w-100 container-breadcrumb">
+    <ol class="breadcrumb mx-3 my-3 my-md-3">
+      <li class="breadcrumb-item">
+        <a routerLink="/principal">Inicio</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="/educacionCristiana">Educacion Cristiana</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ isEditMode ? "Editar Curso" : "Crear curso" }}
+      </li>
+    </ol>
+  </nav>
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center gap-3">
+        <div
+          class="col-md-6 col-lg-7 d-flex align-items-center justify-content-center"
+        >
+          <h2>
+            {{ isEditMode ? "Editar Curso" : "Crear Curso" }}
+          </h2>
+        </div>
+        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+          <form
+            class="example-form"
+            [formGroup]="courseForm"
+            (ngSubmit)="onSubmit()"
+          >
+            <!-- Campo de nombre actividad -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Nombre curso</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="name"
+                [class.is-invalid]="
+                  courseForm.get('name')?.invalid &&
+                  courseForm.get('name')?.touched
+                "
+              />
+              <mat-error *ngIf="courseForm.get('name')?.hasError('required')">
+                El nombre del curso es <strong>obligatorio.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo de Selección de lider -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Profesor Encargado</mat-label>
+              <mat-select formControlName="user">
+                <mat-option
+                  *ngFor="let teacher of teacherUsers"
+                  [value]="teacher._id"
+                >
+                  {{ teacher.fullname }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- Campo de fecha inicio -->
+            <mat-form-field class="rounded example-full-width">
+              <mat-label>Fecha de inicio</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="dateStart"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <!-- Campo de fecha inicio -->
+            <mat-form-field class="rounded example-full-width">
+              <mat-label>Fecha de inicio</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker2"
+                formControlName="dateEnd"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker2"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+
+            <!-- Campo de nombre actividad -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Horario clase</mat-label>
+              <input matInput type="text" formControlName="schedule" />
+            </mat-form-field>
+
+            <!-- Botón de Enviar -->
+            <button class="btn color-boton efecto-hover w-100" type="submit">
+              {{ isEditMode ? "Actualizar" : "Crear" }}
+              <app-progreso-espera
+                [showLoader]="showLoader"
+              ></app-progreso-espera>
+            </button>
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
