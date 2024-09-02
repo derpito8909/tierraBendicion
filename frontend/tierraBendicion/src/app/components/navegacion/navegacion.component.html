@@ -7,7 +7,19 @@
       <div
         class="d-md-flex gap-2 justify-content-center align-items-center d-none"
       >
-        <i class="bi bi-person-circle fs-2"></i>
+        <i [matMenuTriggerFor]="menu" class="bi bi-person-circle fs-2"></i>
+        <mat-menu #menu="matMenu" class="z-3 position-relative p-5">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 p-3">
+            <li class="nav-item ps-2 efecto-hover">
+              <a class="nav-link" routerLink="/perfil">Actualizar perfil</a>
+            </li>
+            <li class="nav-item ps-2 efecto-hover">
+              <a class="nav-link" routerLink="/perfil/cambiarContrasena"
+                >Cambiar contraseña</a
+              >
+            </li>
+          </ul>
+        </mat-menu>
         <div class="d-flex flex-column lh-sm">
           <span class="nav-link">{{ getNameUser() }}</span>
           <span class="nav-link">{{ getRolUser() }}</span>
@@ -60,6 +72,7 @@
       <div class="offcanvas-body">
         <div class="d-flex gap-2 d-md-none mx-3">
           <i class="bi bi-person-circle fs-2"></i>
+
           <div class="d-flex flex-column lh-sm">
             <span class="nav-link">{{ getNameUser() }}</span>
             <span class="nav-link">{{ getRolUser() }}</span>
@@ -72,6 +85,14 @@
               aria-current="page"
               routerLink="/principal"
               >Inicio</a
+            >
+          </li>
+          <li class="nav-item ps-2 efecto-hover">
+            <a class="nav-link" routerLink="/perfil">Actualizar perfil</a>
+          </li>
+          <li class="nav-item ps-2 efecto-hover">
+            <a class="nav-link" routerLink="/perfil/cambiarContrasena"
+              >Cambiar contraseña</a
             >
           </li>
           <li class="nav-item ps-2 efecto-hover">

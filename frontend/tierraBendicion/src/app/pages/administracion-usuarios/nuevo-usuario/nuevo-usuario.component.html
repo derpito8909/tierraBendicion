@@ -34,7 +34,6 @@
               <mat-label>Nombre Completo</mat-label>
               <input
                 matInput
-                [disabled]="isEditMode"
                 type="text"
                 formControlName="fullname"
                 [class.is-invalid]="
@@ -61,7 +60,7 @@
                 "
               />
               <mat-error *ngIf="userForm.get('email')?.hasError('required')">
-                El nombre completo es <strong>obligatorio.</strong>
+                El nombre correo es <strong>obligatorio.</strong>
               </mat-error>
               <mat-error
                 *ngIf="

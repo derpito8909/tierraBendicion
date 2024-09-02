@@ -47,7 +47,7 @@ export class NuevoUsuarioComponent implements OnInit, OnDestroy {
   errorMessage: string | null = null;
   isEditMode = false;
   userId: string | null = this.activeRouter.snapshot.paramMap.get('id');
-  categories: string[] = ['pastor', 'servidor', 'lider'];
+  categories: string[] = ['pastor', 'servidor', 'lider', 'profesor'];
   showLoader: boolean = false;
 
   userForm = this.createFormGroup();
@@ -57,6 +57,7 @@ export class NuevoUsuarioComponent implements OnInit, OnDestroy {
       this.isEditMode = true;
       this.loadUserData();
     }
+    console.log(this.isEditMode);
   }
 
   ngOnDestroy(): void {
@@ -65,7 +66,10 @@ export class NuevoUsuarioComponent implements OnInit, OnDestroy {
 
   createFormGroup(): FormGroup {
     return new FormGroup({
-      fullname: new FormControl('', Validators.required),
+      fullname: new FormControl(
+        { value: '', disabled: this.isEditMode },
+        Validators.required
+      ),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
       category: new FormControl('', Validators.required),

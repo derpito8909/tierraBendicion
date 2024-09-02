@@ -1,0 +1,111 @@
+<app-navegacion></app-navegacion>
+<section class="nuevo d-flex flex-column align-items-center p-3">
+  <nav aria-label="breadcrumb" class="w-100 container-breadcrumb">
+    <ol class="breadcrumb mx-3 my-3 my-md-3">
+      <li class="breadcrumb-item">
+        <a routerLink="/principal">Inicio</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="/actividadesEspeciales">Actividades Especiales</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ isEditMode ? "Editar Actividad" : "Crear Actividad" }}
+      </li>
+    </ol>
+  </nav>
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center gap-3">
+        <div
+          class="col-md-6 col-lg-7 d-flex align-items-center justify-content-center"
+        >
+          <h2>
+            {{ isEditMode ? "Editar Actividad" : "Crear Actividad" }}
+          </h2>
+        </div>
+        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+          <form
+            class="example-form"
+            [formGroup]="activityForm"
+            (ngSubmit)="onSubmit()"
+          >
+            <!-- Campo de nombre actividad -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Nombre Actividad</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="name"
+                [class.is-invalid]="
+                  activityForm.get('name')?.invalid &&
+                  activityForm.get('name')?.touched
+                "
+              />
+              <mat-error *ngIf="activityForm.get('name')?.hasError('required')">
+                El nombre de la actividad es <strong>obligatoria.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo descripcion -->
+            <mat-form-field class="rounded example-full-width">
+              <mat-label>Descripcion</mat-label>
+              <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
+            <!-- Campo de fecha -->
+            <mat-form-field class="rounded example-full-width">
+              <mat-label>Fecha </mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="date" />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <!-- Campo de asistencia-->
+            <mat-form-field class="example-full-width">
+              <mat-label>Numero de personas que asistieron</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="attendance"
+                [class.is-invalid]="
+                  activityForm.get('attendance')?.invalid &&
+                  activityForm.get('attendance')?.touched
+                "
+              />
+              <mat-error
+                *ngIf="activityForm.get('attendance')?.hasError('required')"
+              >
+                La asistencias es <strong>obligatoria.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Campo de Selección de lider -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Lider Encargado</mat-label>
+              <mat-select formControlName="user">
+                <mat-option
+                  *ngFor="let leader of leaderUsers"
+                  [value]="leader._id"
+                >
+                  {{ leader.fullname }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Botón de Enviar -->
+            <button class="btn color-boton efecto-hover w-100" type="submit">
+              {{ isEditMode ? "Actualizar" : "Crear" }}
+              <app-progreso-espera
+                [showLoader]="showLoader"
+              ></app-progreso-espera>
+            </button>
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

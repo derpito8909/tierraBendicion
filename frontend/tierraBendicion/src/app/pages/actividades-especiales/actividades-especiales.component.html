@@ -32,23 +32,16 @@
       <button
         class="btn color-boton efecto-hover w-100 w-md-auto"
         role="button"
+        routerLink="/actividadesEspeciales/nuevo"
       >
         Registrar nueva Actividad
       </button>
       <button
         class="btn color-boton efecto-hover w-100 w-md-auto"
         role="button"
+        routerLink="/actividadesEspeciales/list"
       >
         Ver Actividades
-      </button>
-      <button
-        [ngStyle]="{
-          display: accessUserAdmin() || accessUserLeader() ? 'block' : 'none'
-        }"
-        class="btn btn-danger efecto-hover w-100 w-md-auto"
-        role="button"
-      >
-        Eliminar Actividad
       </button>
     </div>
   </div>

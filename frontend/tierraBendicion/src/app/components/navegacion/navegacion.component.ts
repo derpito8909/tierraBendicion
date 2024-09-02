@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { CommonModule } from '@angular/common';
@@ -7,7 +8,7 @@ import { ProgresoEsperaComponent } from '../progreso-espera/progreso-espera.comp
 @Component({
   selector: 'app-navegacion',
   standalone: true,
-  imports: [RouterLink, CommonModule, ProgresoEsperaComponent],
+  imports: [RouterLink, CommonModule, ProgresoEsperaComponent, MatMenuModule],
   templateUrl: './navegacion.component.html',
   styleUrl: './navegacion.component.css',
 })

@@ -28,23 +28,16 @@
       <button
         class="btn color-boton efecto-hover w-100 w-md-auto"
         role="button"
+        routerLink="/miembros/nuevo"
       >
         Registrar nuevo miembro
       </button>
       <button
         class="btn color-boton efecto-hover w-100 w-md-auto"
         role="button"
+        routerLink="/miembros/list"
       >
         Ver miembros
-      </button>
-      <button
-        [ngStyle]="{
-          display: accessUserAdmin() ? 'block' : 'none'
-        }"
-        class="btn btn-danger efecto-hover w-100 w-md-auto"
-        role="button"
-      >
-        Miembros ausentes
       </button>
     </div>
   </div>

@@ -1,0 +1,61 @@
+<app-navegacion></app-navegacion>
+<section class="nuevo d-flex flex-column align-items-center p-3">
+  <nav aria-label="breadcrumb" class="w-100 container-breadcrumb">
+    <ol class="breadcrumb mx-3 my-3 my-md-3">
+      <li class="breadcrumb-item">
+        <a routerLink="/principal">Inicio</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="/administracionUsuarios">Administracion Usuarios</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Editar usuario</li>
+    </ol>
+  </nav>
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center gap-3">
+        <div
+          class="col-md-6 col-lg-7 d-flex align-items-center justify-content-center"
+        >
+          <h2>Editar Usuario</h2>
+        </div>
+        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+          <form
+            class="example-form"
+            [formGroup]="editUserForm"
+            (ngSubmit)="onSubmit()"
+          >
+            <!-- Campo de Selección de Categoría -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Categoría</mat-label>
+              <mat-select formControlName="category">
+                <mat-option
+                  *ngFor="let category of categories"
+                  [value]="category"
+                >
+                  {{ category }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="editUserForm.get('category')?.hasError('required')"
+              >
+                la categoria es <strong>obligatoria.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Botón de Enviar -->
+            <button class="btn color-boton efecto-hover w-100" type="submit">
+              Actualizar
+              <app-progreso-espera
+                [showLoader]="showLoader"
+              ></app-progreso-espera>
+            </button>
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

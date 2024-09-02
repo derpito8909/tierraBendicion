@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { NavegacionComponent } from '../../components/navegacion/navegacion.component';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-personas-nuevas',
@@ -12,15 +11,10 @@ import { LoginService } from '../../services/login.service';
   styleUrl: './personas-nuevas.component.css',
 })
 export class PersonasNuevasComponent implements OnInit, OnDestroy {
-  private loginService = inject(LoginService);
   ngOnInit(): void {
     console.log('PrincipalComponent initialized');
   }
   ngOnDestroy(): void {
     console.log('PrincipalComponent destroyed');
-  }
-
-  accessUserAdmin(): boolean {
-    return this.loginService.isAdmin();
   }
 }
