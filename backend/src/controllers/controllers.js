@@ -55,6 +55,7 @@ export const getAllItems = (model) => async (req, res, next) => {
 export const getItemById = (model) => async (req, res, next) => {
   const { id } = req.params;
   try {
+    console.log("entro");
     const item = await model.findById(id);
     if (!item) {
       return next(new NotFoundError("registro no encontrado"));
@@ -71,7 +72,7 @@ export const getItemById = (model) => async (req, res, next) => {
 
       if (fieldPath && fieldPath.caster && fieldPath.caster.options.ref) {
         const nameRef = fieldPath.caster.options.ref;
-        itemWithPopulate = await model.find({}).populate(nameRef);
+        itemWithPopulate = await model.findById(id).populate(nameRef);
       }
     }
     if (itemWithPopulate !== undefined) {
