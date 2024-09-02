@@ -55,6 +55,24 @@ body {
   color: black;
 }
 
+/* estilo para crear el formularios */
+.nuevo {
+  width: 100vw;
+  height: 100vh;
+  background-color: #eceeef;
+  overflow-y: auto;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
 @media (min-width: 1024px) {
   .container-breadcrumb {
     margin-top: 200px;
