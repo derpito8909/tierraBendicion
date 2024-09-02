@@ -15,6 +15,10 @@ export class ApiService {
     return this.http.get<T[]>(`${this.baseUrl}/${endpoint}`);
   }
 
+  getByRol<T>(endpoint: string, rol: string): Observable<T[]> {
+    return this.http.get<T[]>(`${this.baseUrl}/${endpoint}/role/${rol}`);
+  }
+
   // Obtener un elemento por ID
   getById<T>(endpoint: string, id: string): Observable<T> {
     return this.http.get<T>(`${this.baseUrl}/${endpoint}/${id}`);
