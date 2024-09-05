@@ -5,12 +5,13 @@ import { Credentials } from '../interfaces/credentials';
 import { LoginResponse } from '../interfaces/login-response';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private apiUrl = 'https://tierrabendicion.azurewebsites.net/login';
+  private apiUrl = `${environment.apiUrl}/login`;
   private httpClient = inject(HttpClient);
   private router = inject(Router);
 

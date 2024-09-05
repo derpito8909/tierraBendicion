@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 import { Users } from '../interfaces/users';
 
@@ -8,7 +9,7 @@ import { Users } from '../interfaces/users';
   providedIn: 'root',
 })
 export class UserProfileService {
-  private baseUrl = 'https://tierrabendicion.azurewebsites.net/users';
+  private baseUrl = `${environment.apiUrl}/users`;
   private http = inject(HttpClient);
 
   getUserProfile(): Observable<Users> {
