@@ -83,7 +83,9 @@ todos los usaurios tendran una seccion de perfil, donde pueden personalizar su n
 
 ## Desarrollo
 
-este sitio web se creo con los componentes del MEAN Stack ( MongoBd, express.js, Angular, Node.js) tambien se utilizaron librerias especiales como Angular material para darles un estilo especial a la aplicacion
+este sitio web se creo con los componentes del MEAN Stack ( MongoBd, express.js, Angular, Node.js) tambien se utilizaron librerias especiales como Angular material para darles un estilo especial a la aplicacion.
+
+Este proyecto tiene la extructura de aquitectura MVC 
 
 <details open>
 <summary>
@@ -93,6 +95,7 @@ Para ejecutar la aplicacion necesita tener instalado este aplicacion
 ###
 
 - Node.js
+- Angular cli
 </details>
 
 <details open>
@@ -108,10 +111,10 @@ para ejecutar la aplicacion:
 git clone https://github.com/derpito8909/tierraBendicion.git
 ```
 
-2. para ejecutar el API ingrese a la carpeta /Backend, y instale las dependencias:
+2. para ejecutar el API ingrese a la carpeta Backend, y instale las dependencias:
 
 ```shell
- cd /backend
+ cd backend
  npm install
 ```
 
@@ -124,7 +127,7 @@ npm run start
 4. para ejecutar la pagina principal inngrese a la carpeta /frontend/tierraBendicion y instale las depencias
 
 ```shell
-cd /frontend/tierraBendicion npm install
+cd frontend/tierraBendicion && npm install
 ```
 
 5. ejecute el comando build para construir el proyecto
