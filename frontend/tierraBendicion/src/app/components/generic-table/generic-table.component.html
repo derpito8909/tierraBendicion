@@ -1,0 +1,59 @@
+<div class="table-responsive mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="table">
+    <!-- Definir las columnas dinámicamente -->
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ column.label }}
+      </th>
+      <td *matCellDef="let element">
+        <ng-container *ngIf="isBoolean(element[column.key])">
+          {{ element[column.key] ? "Sí" : "No" }}
+        </ng-container>
+        <ng-container *ngIf="isDate(element[column.key])">
+          {{ element[column.key] | date : "dd/MM/yyyy" }}
+        </ng-container>
+        <ng-container *ngIf="isNumber(element[column.key])">
+          {{ element[column.key] | number : "1.0-0" }}
+        </ng-container>
+        <ng-container *ngIf="isText(element[column.key])">
+          {{ element[column.key] }}
+        </ng-container>
+        <ng-container *ngIf="isObject(element[column.key])">
+          {{ getValueForObject(element[column.key]) }}
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <!-- Columna de acciones -->
+    <ng-container matColumnDef="action" *ngIf="showActions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+      <td *matCellDef="let element">
+        <button
+          type="button"
+          class="btn p-3"
+          (click)="onAction('edit', element)"
+        >
+          <i class="bi bi-pencil-square h5"></i>
+        </button>
+        <button
+          type="button"
+          class="btn p-2"
+          (click)="onAction('delete', element)"
+        >
+          <i class="bi bi-trash-fill text-danger h5"></i>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Definir los encabezados de la tabla -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <!-- Definir las filas de la tabla -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <!-- Paginador -->
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>
