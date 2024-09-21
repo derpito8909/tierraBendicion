@@ -1,48 +1,23 @@
 //importaciones externas
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  inject,
-  ViewChild,
-  AfterViewInit,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { map, Subject, takeUntil } from 'rxjs';
 //importaciones internas
 import { NavegacionComponent } from '../../../components/navegacion/navegacion.component';
 import { ApiService } from '../../../services/api.service';
 import { NotificationService } from '../../../services/notification.service';
 import { Activity } from '../../../interfaces/activity';
 import { LoginService } from '../../../services/login.service';
+import { GenericTableComponent } from '../../../components/generic-table/generic-table.component';
 
 @Component({
   selector: 'app-listar-actividad',
   standalone: true,
-  imports: [
-    NavegacionComponent,
-    CommonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatCheckboxModule,
-    MatSortModule,
-    MatFormFieldModule,
-    MatInputModule,
-    RouterLink,
-  ],
+  imports: [NavegacionComponent, RouterLink, GenericTableComponent],
   templateUrl: './listar-actividad.component.html',
   styleUrl: './listar-actividad.component.css',
 })
-export class ListarActividadComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class ListarActividadComponent implements OnInit, OnDestroy {
   private apiService = inject(ApiService);
   private router = inject(Router);
   private notificationService = inject(NotificationService);
@@ -52,13 +27,12 @@ export class ListarActividadComponent
 
   errorMessage: string | null = null;
   AllActivities: Activity[] = [];
-  displayedColumns: string[] = ['name', 'date', 'attendance', 'edit', 'delete'];
-  dataSource = new MatTableDataSource<Activity>([]);
-  //logica de paginacion
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-  @ViewChild(MatSort)
-  sort!: MatSort;
+  displayedColumns = [
+    { key: 'name', label: 'Nombre' },
+    { key: 'date', label: 'Fecha' },
+    { key: 'attendance', label: 'Personas que asistieron' },
+    { key: 'user', label: 'Lider a cargo' },
+  ];
 
   ngOnInit(): void {
     this.getAllActivities();
@@ -71,21 +45,36 @@ export class ListarActividadComponent
   getAllActivities(): void {
     this.apiService
       .getAll<Activity>('activities')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        map((activities: Activity[]) =>
+          activities.map((activity: Activity) => {
+            return {
+              ...activity,
+              date: new Date(activity.date),
+            };
+          })
+        )
+      )
       .subscribe({
         next: (activities) => {
           if (activities) {
             this.AllActivities = activities;
-            console.log(this.AllActivities);
-            this.dataSource = new MatTableDataSource(activities);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
           }
         },
         error: (err) => {
           this.errorMessage = err.message;
         },
       });
+  }
+
+  // Método para manejar los eventos de acción
+  handleAction(event: { action: string; element: Activity }) {
+    if (event.action === 'edit') {
+      this.editActivity(event.element._id);
+    } else if (event.action === 'delete') {
+      this.deleteActivity(event.element._id);
+    }
   }
 
   editActivity(id: string) {
@@ -124,11 +113,6 @@ export class ListarActividadComponent
     } else {
       this.notificationService.showError('no tiene permisos');
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   accessUserAdmin(): boolean {

@@ -1,6 +1,7 @@
 import { Courses } from './courses';
 
 export interface Members {
+  _id: string;
   fullname: string;
   address: string;
   neighbourhood: string;
@@ -12,5 +13,5 @@ export interface Members {
   age: number;
   prayerRequest?: string;
   isActive: boolean;
-  course: Courses;
+  course: Courses[];
 }

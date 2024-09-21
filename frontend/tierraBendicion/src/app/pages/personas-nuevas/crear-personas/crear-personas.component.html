@@ -139,10 +139,11 @@
             <!-- Campo de Selección de cursos completados -->
             <mat-form-field class="example-full-width">
               <mat-label>¿Cual escuela ha realizado?</mat-label>
-              <mat-select formControlName="course">
+              <mat-select formControlName="course" [disabled]="false">
                 <mat-option
-                  *ngFor="let courses of displayedCourses"
+                  *ngFor="let courses of availableCourses"
                   [value]="courses._id"
+                  [disabled]="courses._id === selectedCompletedCourse"
                 >
                   {{ courses.name }}
                 </mat-option>

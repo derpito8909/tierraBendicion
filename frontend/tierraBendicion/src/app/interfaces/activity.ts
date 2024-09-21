@@ -6,5 +6,5 @@ export interface Activity {
   description: string;
   date: Date;
   attendance: number;
-  user: Users;
+  user: Users[];
 }

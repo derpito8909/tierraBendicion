@@ -1,22 +1,10 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  inject,
-  ViewChild,
-  AfterViewInit,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+//importaciones internas
 import { NavegacionComponent } from '../../../components/navegacion/navegacion.component';
 NavegacionComponent;
+import { GenericTableComponent } from '../../../components/generic-table/generic-table.component';
 import { ApiService } from '../../../services/api.service';
 import { NotificationService } from '../../../services/notification.service';
 import { Members } from '../../../interfaces/members';
@@ -25,23 +13,11 @@ import { LoginService } from '../../../services/login.service';
 @Component({
   selector: 'app-lista-personas',
   standalone: true,
-  imports: [
-    NavegacionComponent,
-    CommonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatCheckboxModule,
-    MatSortModule,
-    MatFormFieldModule,
-    MatInputModule,
-    RouterLink,
-  ],
+  imports: [NavegacionComponent, GenericTableComponent, RouterLink],
   templateUrl: './lista-personas.component.html',
   styleUrl: './lista-personas.component.css',
 })
-export class ListaPersonasComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class ListaPersonasComponent implements OnInit, OnDestroy {
   private apiService = inject(ApiService);
   private subscription: Subscription | null = null;
   private router = inject(Router);
@@ -50,18 +26,12 @@ export class ListaPersonasComponent
 
   errorMessage: string | null = null;
   members: Members[] = [];
-  displayedColumns: string[] = [
-    'fullname',
-    'cellPhoneNumber',
-    'isActive',
-    'edit',
-    'delete',
+  displayedColumns = [
+    { key: 'fullname', label: 'Nombre Completo' },
+    { key: 'cellPhoneNumber', label: 'Telefono' },
+    { key: 'course', label: 'Ultimo curso Realizado' },
+    { key: 'isActive', label: 'Activo' },
   ];
-  dataSource = new MatTableDataSource<Members>([]);
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-  @ViewChild(MatSort)
-  sort!: MatSort;
 
   ngOnInit(): void {
     this.getAllMembers();
@@ -74,17 +44,22 @@ export class ListaPersonasComponent
     this.subscription = this.apiService.getAll<Members>('members').subscribe({
       next: (res) => {
         if (res) {
-          console.log(res);
           this.members = res;
-          this.dataSource = new MatTableDataSource(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
         }
       },
       error: (err) => {
         this.errorMessage = err.message;
       },
     });
+  }
+
+  // Método para manejar los eventos de acción
+  handleAction(event: { action: string; element: Members }) {
+    if (event.action === 'edit') {
+      this.editMember(event.element._id);
+    } else if (event.action === 'delete') {
+      this.deleteMember(event.element._id);
+    }
   }
   editMember(id: string) {
     if (this.accessUserAdmin()) {
@@ -121,11 +96,6 @@ export class ListaPersonasComponent
     } else {
       this.notificationService.showError('no tienes permisos');
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   accessUserAdmin(): boolean {

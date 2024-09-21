@@ -1,46 +1,24 @@
 //importaciones externas
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  inject,
-  ViewChild,
-  AfterViewInit,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { map, Subject, takeUntil } from 'rxjs';
+
 //importaciones internas
 import { NavegacionComponent } from '../../../components/navegacion/navegacion.component';
 import { ApiService } from '../../../services/api.service';
 import { NotificationService } from '../../../services/notification.service';
 import { Courses } from '../../../interfaces/courses';
 import { LoginService } from '../../../services/login.service';
+import { GenericTableComponent } from '../../../components/generic-table/generic-table.component';
 
 @Component({
   selector: 'app-listar-cursos',
   standalone: true,
-  imports: [
-    NavegacionComponent,
-    CommonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatCheckboxModule,
-    MatSortModule,
-    MatFormFieldModule,
-    MatInputModule,
-    RouterLink,
-  ],
+  imports: [NavegacionComponent, RouterLink, GenericTableComponent],
   templateUrl: './listar-cursos.component.html',
   styleUrl: './listar-cursos.component.css',
 })
-export class ListarCursosComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ListarCursosComponent implements OnInit, OnDestroy {
   private apiService = inject(ApiService);
   private router = inject(Router);
   private notificationService = inject(NotificationService);
@@ -50,19 +28,12 @@ export class ListarCursosComponent implements OnInit, OnDestroy, AfterViewInit {
 
   errorMessage: string | null = null;
   AllCourses: Courses[] = [];
-  displayedColumns: string[] = [
-    'name',
-    'dateStart',
-    'dateEnd',
-    'edit',
-    'delete',
+  displayedColumns = [
+    { key: 'name', label: 'Nombre' },
+    { key: 'dateStart', label: 'Fecha Inicio' },
+    { key: 'dateEnd', label: 'Fecha final' },
+    { key: 'user', label: 'Profesor a cargo' },
   ];
-  dataSource = new MatTableDataSource<Courses>([]);
-  //logica de paginacion
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-  @ViewChild(MatSort)
-  sort!: MatSort;
 
   ngOnInit(): void {
     this.getAllCourses();
@@ -75,20 +46,37 @@ export class ListarCursosComponent implements OnInit, OnDestroy, AfterViewInit {
   getAllCourses(): void {
     this.apiService
       .getAll<Courses>('courses')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        map((courses: Courses[]) =>
+          courses.map((course: Courses) => {
+            return {
+              ...course,
+              dateStart: new Date(course.dateStart),
+              dateEnd: new Date(course.dateEnd),
+            };
+          })
+        )
+      )
       .subscribe({
-        next: (courses) => {
+        next: (courses: Courses[]) => {
           if (courses) {
             this.AllCourses = courses;
-            this.dataSource = new MatTableDataSource(courses);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
           }
         },
         error: (err) => {
           this.errorMessage = err.message;
         },
       });
+  }
+
+  // Método para manejar los eventos de acción
+  handleAction(event: { action: string; element: Courses }) {
+    if (event.action === 'edit') {
+      this.editCourses(event.element._id);
+    } else if (event.action === 'delete') {
+      this.deleteCourses(event.element._id);
+    }
   }
 
   editCourses(id: string) {
@@ -127,11 +115,6 @@ export class ListarCursosComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.notificationService.showError('no tiene permisos');
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   accessUserAdmin(): boolean {
