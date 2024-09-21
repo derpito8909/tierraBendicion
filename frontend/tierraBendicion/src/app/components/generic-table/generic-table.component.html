@@ -10,7 +10,7 @@
           {{ element[column.key] ? "Sí" : "No" }}
         </ng-container>
         <ng-container *ngIf="isDate(element[column.key])">
-          {{ element[column.key] | date : "dd/MM/yyyy" }}
+          {{ element[column.key] | date }}
         </ng-container>
         <ng-container *ngIf="isNumber(element[column.key])">
           {{ element[column.key] | number : "1.0-0" }}

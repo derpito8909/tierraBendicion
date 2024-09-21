@@ -88,11 +88,13 @@ export class GenericTableComponent<T>
     return typeof value === 'object';
   }
   getValueForObject(value: any): string {
-    for (const element of value) {
-      if (element.name) {
-        return element.name;
-      } else {
-        return element.fullname;
+    if (value.length !== undefined) {
+      for (const element of value) {
+        if (element.name) {
+          return element.name;
+        } else {
+          return element.fullname;
+        }
       }
     }
     return '';
