@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Credentials } from '../../interfaces/credentials';
 import { LoginService } from '../../services/login.service';
+import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ProgresoEsperaComponent } from '../../components/progreso-espera/progreso-espera.component';
@@ -30,6 +31,7 @@ import { LoginResponse } from '../../interfaces/login-response';
 })
 export class InicioComponent implements OnInit, OnDestroy {
   private loginService = inject(LoginService);
+  private tokenService = inject(TokenService);
   private router = inject(Router);
   private loginSubscription: Subscription | null = null;
   errorMessage: string | null = null;
@@ -77,7 +79,7 @@ export class InicioComponent implements OnInit, OnDestroy {
 
   private handleSuccess(res: LoginResponse): void {
     if (res?.token) {
-      this.loginService.setToken(res.token);
+      this.tokenService.setToken(res.token);
       this.loginService.setNameUser(res.nameUser);
       this.loginService.setRolUser(res.rolUser);
       this.router.navigate(['/principal']);

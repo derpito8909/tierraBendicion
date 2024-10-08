@@ -8,7 +8,7 @@ import { Users } from '../interfaces/users';
   providedIn: 'root',
 })
 export class UserProfileService {
-  private baseUrl = 'https://tierrabendicion.azurewebsites.net/users';
+  private baseUrl = 'http://localhost:3000/users';
   private http = inject(HttpClient);
 
   getUserProfile(): Observable<Users> {

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  private baseUrl = 'https://tierrabendicion.azurewebsites.net';
+  private baseUrl = 'http://localhost:3000';
   private http = inject(HttpClient);
 
   //metodos de las peticiones de los servicios
