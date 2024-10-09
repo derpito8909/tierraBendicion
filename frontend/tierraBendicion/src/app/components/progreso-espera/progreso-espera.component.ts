@@ -1,12 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
-import {
-  Router,
-  Event,
-  NavigationStart,
-  NavigationEnd,
-  NavigationCancel,
-  NavigationError,
-} from '@angular/router';
+import { Component } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 
 import { Input } from '@angular/core';

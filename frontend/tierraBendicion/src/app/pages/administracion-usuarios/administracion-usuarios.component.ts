@@ -1,66 +1,31 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  inject,
-  ViewChild,
-  AfterViewInit,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { NavegacionComponent } from '../../components/navegacion/navegacion.component';
 import { Users } from '../../interfaces/users';
 import { Subscription } from 'rxjs';
 import { ApiService } from '../../services/api.service';
-import { CommonModule } from '@angular/common';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { SelectionModel } from '@angular/cdk/collections';
 import { Router, RouterLink } from '@angular/router';
 import { NotificationService } from '../../services/notification.service';
+import { GenericTableComponent } from '../../components/generic-table/generic-table.component';
 
 @Component({
   selector: 'app-administracion-usuarios',
   standalone: true,
-  imports: [
-    NavegacionComponent,
-    CommonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatCheckboxModule,
-    MatSortModule,
-    MatFormFieldModule,
-    MatInputModule,
-    RouterLink,
-  ],
+  imports: [NavegacionComponent, RouterLink, GenericTableComponent],
   templateUrl: './administracion-usuarios.component.html',
   styleUrl: './administracion-usuarios.component.css',
 })
-export class AdministracionUsuariosComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class AdministracionUsuariosComponent implements OnInit, OnDestroy {
   private apiService = inject(ApiService);
   private subscription: Subscription | null = null;
   private router = inject(Router);
   private notificationService = inject(NotificationService);
   errorMessage: string | null = null;
   users: Users[] = [];
-  displayedColumns: string[] = [
-    'fullname',
-    'email',
-    'category',
-    'edit',
-    'delete',
+  displayedColumns = [
+    { key: 'fullname', label: 'Nombre' },
+    { key: 'email', label: 'Correo Electronico' },
+    { key: 'category', label: 'categoria' },
   ];
-  dataSource = new MatTableDataSource<Users>([]);
-  selection = new SelectionModel<Users>(true, []);
-
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-  @ViewChild(MatSort)
-  sort!: MatSort;
 
   ngOnInit(): void {
     this.getAllUser();
@@ -74,9 +39,6 @@ export class AdministracionUsuariosComponent
       next: (res: Users[]) => {
         if (res) {
           this.users = res;
-          this.dataSource = new MatTableDataSource(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
         }
         this.errorMessage = null;
       },
@@ -84,6 +46,15 @@ export class AdministracionUsuariosComponent
         this.errorMessage = err.message;
       },
     });
+  }
+
+  // Método para manejar los eventos de acción
+  handleAction(event: { action: string; element: Users }) {
+    if (event.action === 'edit') {
+      this.editUser(event.element._id);
+    } else if (event.action === 'delete') {
+      this.deleteUser(event.element._id);
+    }
   }
 
   editUser(id: string) {
@@ -114,10 +85,5 @@ export class AdministracionUsuariosComponent
   }
   addUser() {
     this.router.navigate(['/administracionUsuarios/nuevo']);
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 }

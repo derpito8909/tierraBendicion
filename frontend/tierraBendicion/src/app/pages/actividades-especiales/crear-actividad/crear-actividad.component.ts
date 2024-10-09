@@ -103,8 +103,7 @@ export class CrearActividadComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (activity) => {
-          console.log(activity.user);
-          this.leaderUsers.push(activity.user);
+          this.leaderUsers = activity.user;
           this.activityForm.patchValue(activity);
         },
         error: (err) => this.handleError(err),

@@ -52,6 +52,7 @@ export class CrearPersonasComponent implements OnInit, OnDestroy {
   isEditMode = false;
   memberId: string | null = this.activeRouter.snapshot.paramMap.get('id');
   lastCompletedCourse: Courses | null = null;
+  selectedCompletedCourse: string | null = null;
   availableCourses: Courses[] = [];
   displayedCourses: Courses[] = [];
   maritalStatus: string[] = ['Soltero', 'Casado', 'Union Libre'];
@@ -61,11 +62,10 @@ export class CrearPersonasComponent implements OnInit, OnDestroy {
   memberForm: FormGroup = this.createFormGroup();
 
   ngOnInit(): void {
+    this.loadCourseData();
     this.isEditMode = Boolean(this.memberId);
     if (this.isEditMode) {
       this.loadMemberData();
-    } else {
-      this.loadCourseData();
     }
   }
   ngOnDestroy(): void {
@@ -100,7 +100,8 @@ export class CrearPersonasComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (courses) => {
-          this.displayedCourses = courses;
+          this.availableCourses = courses;
+          console.log(courses);
         },
         error: (err) => this.handleError(err),
       });
@@ -112,18 +113,8 @@ export class CrearPersonasComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (member) => {
-          this.lastCompletedCourse = member.course;
-
-          if (this.lastCompletedCourse !== null) {
-            this.loadCourseData();
-            this.memberForm.patchValue(member);
-          } else if (this.lastCompletedCourse) {
-            this.displayedCourses = this.availableCourses.filter(
-              (element) => element._id !== this.lastCompletedCourse?._id
-            );
-            console.log(this.displayedCourses);
-            this.memberForm.patchValue(member);
-          }
+          this.selectedCompletedCourse = member.course[0]._id;
+          this.memberForm.patchValue(member);
         },
         error: (err) => this.handleError(err),
       });
