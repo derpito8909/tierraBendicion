@@ -63,15 +63,11 @@ export class InicioComponent implements OnInit, OnDestroy {
       this.loginSubscription = this.loginService.login(credentials).subscribe({
         next: (res: LoginResponse) => {
           this.showLoader = true;
-          setTimeout(() => {
-            this.handleSuccess(res);
-          }, 1000);
+          this.handleSuccess(res);
         },
         error: (err) => {
           this.showLoader = true;
-          setTimeout(() => {
-            this.handleError(err);
-          }, 1000);
+          this.handleError(err);
         },
       });
     }
