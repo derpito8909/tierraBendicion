@@ -13,5 +13,6 @@ export interface Members {
   age: number;
   prayerRequest?: string;
   isActive: boolean;
+  isBaptized: boolean;
   course: Courses[];
 }

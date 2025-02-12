@@ -22,23 +22,24 @@ const memberSchema = new mongoose.Schema(
     },
     visitAccepted: {
       type: String,
-      required: true,
     },
     visitTime: {
       type: String,
     },
     maritalStatus: {
       type: String,
-      required: true,
     },
     age: {
       type: String,
-      required: true,
     },
     prayerRequest: {
       type: String,
     },
     isActive: {
+      type: Boolean,
+      default: true,
+    },
+    isBaptized: {
       type: Boolean,
       default: true,
     },

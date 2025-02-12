@@ -82,10 +82,11 @@ export class CrearPersonasComponent implements OnInit, OnDestroy {
       cellPhoneNumber: new FormControl('', [Validators.required]),
       visitAccepted: new FormControl(''),
       visitTime: new FormControl(''),
-      maritalStatus: new FormControl('', [Validators.required]),
-      age: new FormControl(null, [Validators.required, Validators.min(0)]),
+      maritalStatus: new FormControl(''),
+      age: new FormControl(null, [Validators.min(0)]),
       prayerRequest: new FormControl(''),
       isActive: new FormControl(true),
+      isBaptized: new FormControl(true),
       course: new FormControl(''),
     });
   }
